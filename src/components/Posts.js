@@ -9,6 +9,11 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 
+import { connect } from 'react-redux'
+
+import { addPost, getPosts } from '../actions/posts'
+import { getCategories } from '../actions/categories'
+
 const styles = {
   dropdown: {
     fontSize: '14px',
@@ -37,14 +42,14 @@ const styles = {
 
 class Posts extends Component {
   state = {
-    posts: [],
     openDrawer: false
   }
 
   toggleDrawer = () => this.setState((state) => ({openDrawer: !state.openDrawer}))
 
   render() {
-    let { posts, openDrawer } = this.state
+    let { openDrawer } = this.state
+    let { posts, categories } = this.props
     return (
       <div>
         <div style={styles.nav}>
@@ -58,10 +63,30 @@ class Posts extends Component {
             Close
           </MenuItem>
           <Divider />
+          {categories.map(category => (
+            <MenuItem key={category}>{category}</MenuItem>
+          ))}
         </Drawer>
       </div>
     )
   }
 }
 
-export default Posts
+const mapStateToProps = (state) => {
+  return {
+    categories: state.categories
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newPost: (post) => dispatch(addPost(post)),
+    posts: () => dispatch(getPosts()),
+    getCategories: () => dispatch(getCategories())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Posts)
