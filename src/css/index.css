@@ -6,4 +6,6 @@ body {
   font-family: 'Ubuntu', sans-serif;
   background: #f9f9f9;
   color: #37474F;
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
 }

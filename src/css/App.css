@@ -12,18 +12,22 @@
   text-align: center;
   font-size: 16px;
   color: #37474F;
-  line-height: 50px;
   background: #ffffff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #607D8B;
+  font-size: 14px;
 }
 
 .title {
   flex-grow: 1;
   font-weight: 100;
   color: #FFFFFF;
-  font-size: 24px;
-  text-shadow: 0 0 2px #37474F;
+  font-size: 18px;
+  letter-spacing: 4px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   text-transform: uppercase;
+  font-weight: 100;
 }
 
 .header ul {
@@ -35,7 +39,15 @@
 .header ul li {
   line-height: 50px;
   display: inline-block;
-  font-size: 14px;
+  font-size: 12px;
+  text-transform: uppercase;
   color: #FFFFFF;
   padding: 0 10px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+a {
+  color: #37474F;
+  text-decoration: underline;
 }
