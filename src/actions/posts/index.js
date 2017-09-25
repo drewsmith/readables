@@ -4,9 +4,3 @@ export const addPost = (post) => {
     post: post
   }
 }
-
-export const getPosts = () => {
-  return {
-    type: "GET_POSTS",
-  }
-}

@@ -3,18 +3,17 @@ import React, { Component } from 'react'
 import AppBar from 'material-ui/AppBar'
 import FlatButton from 'material-ui/FlatButton'
 
-import { blueGrey900, white, lightGreen500 } from 'material-ui/styles/colors'
+import { blueGrey500, white } from 'material-ui/styles/colors'
 
 const styles = {
   nav: {
-    background: white,
-    color: blueGrey900
+    background: white
   },
   btn: {
-    color: blueGrey900
+    color: blueGrey500
   },
   title: {
-    color: blueGrey900,
+    color: blueGrey500,
     textTransform: 'uppercase',
     fontWeight: '100'
   },
@@ -43,13 +42,13 @@ const NavButtons = () => (
 class TopNav extends Component {
   render() {
     return (
-      <AppBar
-        title="Readables"
-        titleStyle={styles.title}
-        showMenuIconButton={false}
-        iconElementRight={<NavButtons/>}
-        style={styles.nav}
-      />
+      <div className="header">
+        <div className="title">Readables</div>
+        <ul>
+          <li>Views Posts</li>
+          <li>Add Post</li>
+        </ul>
+      </div>
     )
   }
 }

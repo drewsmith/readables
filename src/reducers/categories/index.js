@@ -15,13 +15,7 @@ const categories = (state = initialCategories, action) => {
         ...state,
         categories: state.concat(category)
       }
-
-    case "GET_CATEGORIES":
-      return {
-        ...state,
-        categories: state.categories
-      }
-
+      
     default:
       return state
   }
