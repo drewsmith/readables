@@ -3,8 +3,8 @@
   line-height: 50px;
   vertical-align: middle;
   display: flex;
-  padding: 0 25px;
-  background: #607D8B;
+  padding: 0;
+  background: #FFA000;/*#1976D2;*/
 }
 
 .subheader {
@@ -19,6 +19,11 @@
   font-size: 14px;
 }
 
+.library-icon {
+  padding-top: 12px;
+  vertical-align: top !important;
+}
+
 .title {
   flex-grow: 1;
   font-weight: 100;
@@ -28,12 +33,14 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   text-transform: uppercase;
   font-weight: 100;
+  padding: 0 20px;
 }
 
 .header ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+  padding-right: 20px;
 }
 
 .header ul li {
@@ -41,7 +48,7 @@
   display: inline-block;
   font-size: 12px;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 0 10px;
   font-weight: 600;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);

@@ -5,9 +5,9 @@ import ArrowDown from 'material-ui-icons/ArrowDropDown'
 
 const Vote = () => (
   <div className="vote">
-    <ArrowUp color="#00838F" />
+    <ArrowUp color="#1976D2" />
     0
-    <ArrowDown color="#00838F" />
+    <ArrowDown color="#1976D2" />
   </div>
 )
 
