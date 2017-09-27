@@ -6,7 +6,7 @@ class TopNav extends Component {
     return (
       <header>
         <section>
-          <Library className="library-icon" color="#444444" /> Readables
+          <Library className="library-icon" color="#455A64" /> Readables
         </section>
         <ul>
           <li>View Posts</li>
