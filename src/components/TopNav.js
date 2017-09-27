@@ -4,15 +4,15 @@ import Library from 'material-ui-icons/LocalLibrary'
 class TopNav extends Component {
   render() {
     return (
-      <div className="header">
-        <div className="title">
+      <header>
+        <section>
           <Library className="library-icon" color="#444444" /> Readables
-        </div>
+        </section>
         <ul>
           <li>View Posts</li>
           <li>Add Post</li>
         </ul>
-      </div>
+      </header>
     )
   }
 }

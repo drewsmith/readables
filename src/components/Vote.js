@@ -6,11 +6,11 @@ import ArrowDown from 'material-ui-icons/ArrowDropDown'
 const arrowColor = "#666666"
 
 const Vote = () => (
-  <div className="vote">
+  <section className="vote">
     <ArrowUp color={arrowColor} />
     0
     <ArrowDown color={arrowColor} />
-  </div>
+  </section>
 )
 
 export default Vote

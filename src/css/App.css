@@ -1,10 +1,41 @@
-.header {
+header {
   height: 50px;
   line-height: 50px;
   vertical-align: middle;
   display: flex;
   padding: 0;
-  background: #FFA000;/*#1976D2;*/
+  background: #2196F3;
+}
+
+header section {
+  flex-grow: 1;
+  font-weight: 100;
+  color: #FFFFFF;
+  font-size: 18px;
+  letter-spacing: 4px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  text-transform: uppercase;
+  font-weight: 100;
+  padding: 0 20px;
+}
+
+header ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+header ul li {
+  line-height: 50px;
+  display: inline-block;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 0 10px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .subheader {
@@ -20,38 +51,8 @@
 
 .library-icon {
   padding-top: 12px;
+  padding-right: 10px;
   vertical-align: top !important;
-}
-
-.title {
-  flex-grow: 1;
-  font-weight: 100;
-  color: #FFFFFF;
-  font-size: 18px;
-  letter-spacing: 4px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  text-transform: uppercase;
-  font-weight: 100;
-  padding: 0 20px;
-}
-
-.header ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  padding-right: 20px;
-}
-
-.header ul li {
-  line-height: 50px;
-  display: inline-block;
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #ffffff;
-  padding: 0 10px;
-  font-weight: 600;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
 }
 
 a {

@@ -48,7 +48,7 @@
   flex-direction: column;
   text-align: center;
   color: #666666;
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .post-wrapper {
@@ -58,7 +58,7 @@
 
 .post-container {
   display: flex;
-  padding: 20px;
+  padding: 10px 20px;
   margin: 20px;
   background: #ffffff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
@@ -66,6 +66,20 @@
 
 .post-content {
   flex-grow: 1;
-  margin-left: 20px;
+  margin: auto 0 auto 20px;
   vertical-align: middle;
+  vertical-align: middle;
+}
+
+.post-content a {
+  color: #333333;
+  font-size: 18px;
+  text-decoration: underline;
+  font-weight: 100;
+}
+
+.post-content .details {
+  color: #9E9E9E;
+  font-size: 14px;
+  margin-top: 5px;
 }
