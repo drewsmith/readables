@@ -5,10 +5,10 @@ import ArrowDown from 'material-ui-icons/ArrowDropDown'
 
 const arrowColor = "#455A64"
 
-const Vote = () => (
+const Vote = ({total}) => (
   <section className="vote">
     <ArrowUp color={arrowColor} />
-    0
+    {total}
     <ArrowDown color={arrowColor} />
   </section>
 )

@@ -1,27 +1,46 @@
-import React from 'react'
+import React, { Component } from 'react'
+
 import Vote from './Vote'
+import CategoryDrawer from './CategoryDrawer'
 
 import { connect } from 'react-redux'
 import { addPost } from '../actions/posts'
 
 import '../css/Posts.css'
 
-const Posts = () => (
-  <main>
-    <section className="subheader">
-      0 Posts for Category
-    </section>
-    <section className="post-container">
-      <Vote/>
-      <div className="post-content">
-        <a href="#">This is an article that is a link.</a>
-        <div className="details">
-          By Your Mom, March 27, 2000 | 0 Comments
-        </div>
-      </div>
-    </section>
-  </main>
-)
+class Posts extends Component {
+  state = {
+    showCategories: false
+  }
+
+  toggleCategories = () => this.setState((state) => ({showCategories: !state.showCategories}))
+
+  render() {
+    let { posts } = this.props
+    let { showCategories } = this.state
+    return (
+      <main>
+        <section className="subheader">
+          {posts.length} Posts for <span onClick={this.toggleCategories}>Category</span>
+        </section>
+        {posts && posts.map(post => (
+          <section className="post-container" key={post.id}>
+            <Vote total={post.votes}/>
+            <div className="post-content">
+              <a href="#">{post.title}</a>
+              <div className="details">
+                By {post.creator} on {post.createdOn} | 0 Comments
+              </div>
+            </div>
+          </section>
+        ))}
+        {showCategories && (
+          <CategoryDrawer toggleDrawer={this.toggleCategories} />
+        )}
+      </main>
+    )
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
