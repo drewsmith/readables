@@ -24,12 +24,9 @@
   border-bottom:1px solid #f0f0f0;
   height: 49px;
   vertical-align: middle;
-  padding: 0;
-  margin: auto auto;
-  text-align: center;
+  padding: 0 0 0 20px;
+  margin: auto 0;
   line-height: 50px;
-  font-size: 16px;
-  letter-spacing: 4px;
   font-weight: 100;
   cursor: default;
   text-shadow: 0 1px 1px #FFFFFF;
@@ -46,9 +43,9 @@
 }
 
 .category-drawer ul li {
-  padding: 15px;
+  padding: 15px 20px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
   text-transform: uppercase;
   color: #263238;
   border-bottom: 1px solid #f9f9f9;

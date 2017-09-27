@@ -14,7 +14,7 @@ class CategoryDrawer extends Component {
 
     return (
       <div className="category-drawer">
-        <Cancel className="close-icon" onClick={toggleDrawer} />
+        <Cancel className="close-icon" onClick={toggleDrawer} color="#9E9E9E" />
         <ul>
           <li>Categories</li>
           {categories && categories.map(category => (
