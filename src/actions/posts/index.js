@@ -34,17 +34,16 @@ export const fetchComments = (postId) => {
         url: `${serverUrl}/posts/${postId}/comments`
       })
       .then(response => response.data)
-      .then(data => dispatch(receiveComments(postId, data)))
+      .then(data => dispatch(receiveComments(data)))
   }
 }
 
 export const receivePosts = (data) => ({
-  type: RECEIVE_POSTS,
+  type: RECIEVE_POSTS,
   posts: data
 })
 
-export const receiveComments = (postId, data) => ({
-  type: RECEIVE_COMMENTS,
-  postId: postId,
+export const receiveComments = (data) => ({
+  type: RECIEVE_COMMENTS,
   comments: data
 })

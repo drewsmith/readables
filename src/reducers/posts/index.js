@@ -6,7 +6,8 @@ import {
 
 const posts = (state = {
   loading: false,
-  items: []
+  items: [],
+  comments: []
 }, action) => {
   switch(action.type) {
     case REQUEST_POSTS:
@@ -21,10 +22,10 @@ const posts = (state = {
         items: action.posts
       }
     case RECIEVE_COMMENTS:
-      let { comments, postId } = action
+      let { comments = [] } = action
       return {
         ...state,
-        [postId]: comments
+        comments: state.comments.concat(comments)
       }
     default:
       return state

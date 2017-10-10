@@ -18,14 +18,14 @@ const dateString = (timestamp) => (
   })
 )
 
-const Post = ({post}) => (
+const Post = ({post, comments = []}) => (
   <section className="post-container" key={post.id}>
     <Vote total={post.voteScore}/>
     <div className="post-content">
       <a href="#">{post.title}</a>
       <div className="details">
         By {post.author} on {dateString(post.timestamp)}&nbsp;|&nbsp;
-        0 Comments&nbsp;|&nbsp;
+        { comments.length } Comments&nbsp;|&nbsp;
         { post.category }
       </div>
     </div>
@@ -46,7 +46,7 @@ class Posts extends Component {
   }
 
   render() {
-    let { items } = this.props.posts
+    let { items, comments } = this.props.posts
     let { loading } = this.props
     let { showCategories } = this.state
 
@@ -58,7 +58,7 @@ class Posts extends Component {
 
         {loading && <div>Loading</div>}
 
-        {items && items.map(post => <Post key={post.id} post={post} />)}
+        {items && items.map(post => <Post key={post.id} post={post} comments={comments.filter(comment => comment.parentId === post.id)} />)}
 
         {showCategories && (
           <CategoryDrawer toggleDrawer={this.toggleCategories} />
