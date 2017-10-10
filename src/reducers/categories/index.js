@@ -1,21 +1,24 @@
-const initialCategories = ["All"]
+import {
+  REQUEST_CATEGORIGES,
+  RECEIVE_CATEGORIGES
+} from '../../actions/categories'
 
-const categories = (state = initialCategories, action) => {
+const categories = (state = {
+  loading: false,
+  items: []
+}, action) => {
   switch(action.type) {
-
-    case "ADD_CATEGORY":
-      const { category } = action
-      if(state.indexOf(category) >= 0) {
-        return {
-          ...state,
-          categories: state.categories
-        }
-      }
+    case REQUEST_CATEGORIGES:
       return {
         ...state,
-        categories: state.concat(category)
+        loading: true
       }
-      
+    case RECEIVE_CATEGORIGES:
+      return {
+        ...state,
+        loading: false,
+        items: action.categories
+      }
     default:
       return state
   }

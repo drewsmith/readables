@@ -5,25 +5,16 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import { Provider } from 'react-redux'
-import { createStore, compose } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 import reducers from './reducers'
 
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import { blueGrey300, blueGrey500, blueGrey900 } from 'material-ui/styles/colors';
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducers, composeEnhancers())
-
-const muiTheme = getMuiTheme({
-    palette: {
-        primary1Color: blueGrey500,
-        primary2Color: blueGrey300,
-        primary3Color: blueGrey900
-    },
-});
+const store = createStore(reducers, composeEnhancers(), applyMiddleware(thunkMiddleware))
 
 ReactDOM.render(
   <Provider store={store}>

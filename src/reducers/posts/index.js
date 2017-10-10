@@ -1,22 +1,31 @@
-const initialPosts = [{
-  id: '1',
-  title: 'Fake Title',
-  createdOn: 'March 01, 2017',
-  creator: 'Drew Smith',
-  votes: 0
-}]
+import {
+  REQUEST_POSTS,
+  RECIEVE_POSTS,
+  RECIEVE_COMMENTS
+} from '../../actions/posts'
 
-const posts = (state = initialPosts, action) => {
+const posts = (state = {
+  loading: false,
+  items: []
+}, action) => {
   switch(action.type) {
-
-    case "ADD_POST":
-      let { post } = action
-      return state.concat(post)
-
-    case "REMOVE_POST":
-      let { postId } = action.post
-      return state.filter(post => post.id !== postId)
-
+    case REQUEST_POSTS:
+      return {
+        ...state,
+        loading: true
+      }
+    case RECIEVE_POSTS:
+      return {
+        ...state,
+        loading: false,
+        items: action.posts
+      }
+    case RECIEVE_COMMENTS:
+      let { comments, postId } = action
+      return {
+        ...state,
+        [postId]: comments
+      }
     default:
       return state
   }

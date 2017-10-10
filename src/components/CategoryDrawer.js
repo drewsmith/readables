@@ -7,18 +7,18 @@ import { connect } from 'react-redux'
 import '../css/CategoryDrawer.css'
 
 class CategoryDrawer extends Component {
-  state = {}
-
   render() {
     let { categories, toggleDrawer } = this.props
-
     return (
       <div className="category-drawer">
         <Cancel className="close-icon" onClick={toggleDrawer} color="#9E9E9E" />
         <ul>
           <li>Categories</li>
-          {categories && categories.map(category => (
-            <li key={category}>{category}</li>
+          {categories.loading && (
+            <li>Loading...</li>
+          )}
+          {categories.items && categories.items.map(category => (
+            <li key={category.name}>{category.name}</li>
           ))}
         </ul>
       </div>

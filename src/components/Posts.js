@@ -4,9 +4,33 @@ import Vote from './Vote'
 import CategoryDrawer from './CategoryDrawer'
 
 import { connect } from 'react-redux'
-import { addPost } from '../actions/posts'
+
+import { fetchPosts } from '../actions/posts'
+import { fetchCategories } from '../actions/categories'
 
 import '../css/Posts.css'
+
+const dateString = (timestamp) => (
+  new Date(timestamp).toLocaleString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  })
+)
+
+const Post = ({post}) => (
+  <section className="post-container" key={post.id}>
+    <Vote total={post.voteScore}/>
+    <div className="post-content">
+      <a href="#">{post.title}</a>
+      <div className="details">
+        By {post.author} on {dateString(post.timestamp)}&nbsp;|&nbsp;
+        0 Comments&nbsp;|&nbsp;
+        { post.category }
+      </div>
+    </div>
+  </section>
+)
 
 class Posts extends Component {
   state = {
@@ -15,25 +39,27 @@ class Posts extends Component {
 
   toggleCategories = () => this.setState((state) => ({showCategories: !state.showCategories}))
 
+  componentDidMount() {
+    let { loadCategories, loadPosts } = this.props
+    loadCategories()
+    loadPosts()
+  }
+
   render() {
-    let { posts } = this.props
+    let { items } = this.props.posts
+    let { loading } = this.props
     let { showCategories } = this.state
+
     return (
       <main>
         <section className="subheader">
-          {posts.length} Posts for <span onClick={this.toggleCategories}>Category</span>
+          {items.length} Posts for <span className="category-link" onClick={this.toggleCategories}>Category</span>
         </section>
-        {posts && posts.map(post => (
-          <section className="post-container" key={post.id}>
-            <Vote total={post.votes}/>
-            <div className="post-content">
-              <a href="#">{post.title}</a>
-              <div className="details">
-                By {post.creator} on {post.createdOn} | 0 Comments
-              </div>
-            </div>
-          </section>
-        ))}
+
+        {loading && <div>Loading</div>}
+
+        {items && items.map(post => <Post key={post.id} post={post} />)}
+
         {showCategories && (
           <CategoryDrawer toggleDrawer={this.toggleCategories} />
         )}
@@ -44,14 +70,14 @@ class Posts extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.categories,
     posts: state.posts
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    newPost: (post) => dispatch(addPost(post))
+    loadCategories: () => dispatch(fetchCategories()),
+    loadPosts: () => dispatch(fetchPosts())
   }
 }
 
