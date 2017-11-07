@@ -5,7 +5,7 @@ import CategoryDrawer from './CategoryDrawer'
 
 import { connect } from 'react-redux'
 
-import { fetchPosts } from '../actions/posts'
+import { fetchPosts, fetchPostsByCategory } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
 import '../css/Posts.css'
@@ -46,8 +46,8 @@ class Posts extends Component {
   }
 
   render() {
-    let { items, comments } = this.props.posts
-    let { loading } = this.props
+    let { loadPostsByCategory } = this.props
+    let { items, comments, loading } = this.props.posts
     let { showCategories } = this.state
 
     return (
@@ -56,12 +56,14 @@ class Posts extends Component {
           {items.length} Posts for <span className="category-link" onClick={this.toggleCategories}>Category</span>
         </section>
 
-        {loading && <div>Loading</div>}
+        {loading && <div className="loading">Loading</div>}
 
         {items && items.map(post => <Post key={post.id} post={post} comments={comments.filter(comment => comment.parentId === post.id)} />)}
 
         {showCategories && (
-          <CategoryDrawer toggleDrawer={this.toggleCategories} />
+          <CategoryDrawer
+            toggleDrawer={this.toggleCategories}
+            loadPostsByCategory={loadPostsByCategory} />
         )}
       </main>
     )
@@ -77,7 +79,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCategories: () => dispatch(fetchCategories()),
-    loadPosts: () => dispatch(fetchPosts())
+    loadPosts: () => dispatch(fetchPosts()),
+    loadPostsByCategory: (category) => dispatch(fetchPostsByCategory(category))
   }
 }
 

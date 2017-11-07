@@ -1,0 +1,55 @@
+.add-post {
+  margin: 20px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-post .field {
+  padding: 10px 0;
+}
+
+.add-post .field label {
+  display: block;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #455a64;
+}
+
+.add-post .field input, .add-post .field textarea {
+  padding: 5px 10px;
+  border: 1px solid #e9e9e9;
+  min-width: 300px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #455a64;
+}
+
+.add-post .field textarea {
+  min-width: 90%;
+  min-height: 200px;
+}
+
+.add-post-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 500;
+  background: #2196F3;
+  border: 0px;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+  cursor: pointer;
+}
+
+.error label {
+  color: #C11111 !important;
+}
+
+.error input, .error textarea {
+  border: 1px solid #C11111 !important;
+}

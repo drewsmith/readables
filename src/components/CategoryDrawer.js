@@ -7,6 +7,13 @@ import { connect } from 'react-redux'
 import '../css/CategoryDrawer.css'
 
 class CategoryDrawer extends Component {
+
+  handleCategoryClick(categoryName) {
+    let { toggleDrawer, loadPostsByCategory } = this.props
+    loadPostsByCategory(categoryName)
+    toggleDrawer()
+  }
+
   render() {
     let { categories, toggleDrawer } = this.props
     return (
@@ -18,7 +25,7 @@ class CategoryDrawer extends Component {
             <li>Loading...</li>
           )}
           {categories.items && categories.items.map(category => (
-            <li key={category.name}>{category.name}</li>
+            <li key={category.name} onClick={() => this.handleCategoryClick(category.name)}>{category.name}</li>
           ))}
         </ul>
       </div>

@@ -27,6 +27,24 @@ export const fetchPosts = () => {
   }
 }
 
+export const fetchPostsByCategory = (category = '') => {
+  return dispatch => {
+    dispatch(requestPosts())
+    return axios({
+        headers,
+        url: `${serverUrl}/${category}/posts`
+      })
+      .then(response => response.data)
+      .then(data => {
+        dispatch(receivePosts(data))
+        return data
+      })
+      .then(data => {
+        data.map(post => dispatch(fetchComments(post.id)))
+      })
+  }
+}
+
 export const fetchComments = (postId) => {
   return dispatch => {
     return axios({
