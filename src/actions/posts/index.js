@@ -3,6 +3,7 @@ import { headers, serverUrl } from '../config'
 
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECIEVE_POSTS = 'RECIEVE_POSTS'
+export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 
 export const requestPosts = () => ({
@@ -24,6 +25,18 @@ export const fetchPosts = () => {
       .then(data => {
         data.map(post => dispatch(fetchComments(post.id)))
       })
+  }
+}
+
+export const createPost = (post) => {
+  return dispatch => {
+    return axios({
+        headers,
+        method: 'POST',
+        url: `${serverUrl}/posts`,
+        data: post
+      })
+      .then(console.log)
   }
 }
 

@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-
 import Cancel from 'material-ui-icons/Cancel'
-
 import { connect } from 'react-redux'
-
 import '../css/CategoryDrawer.css'
 
 class CategoryDrawer extends Component {
+
+  handleAllClick = () => {
+    let { toggleDrawer, loadAllPosts } = this.props
+    loadAllPosts()
+    toggleDrawer()
+  }
 
   handleCategoryClick(categoryName) {
     let { toggleDrawer, loadPostsByCategory } = this.props
@@ -24,6 +27,7 @@ class CategoryDrawer extends Component {
           {categories.loading && (
             <li>Loading...</li>
           )}
+          <li onClick={this.handleAllClick}>All</li>
           {categories.items && categories.items.map(category => (
             <li key={category.name} onClick={() => this.handleCategoryClick(category.name)}>{category.name}</li>
           ))}

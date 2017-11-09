@@ -46,7 +46,7 @@ class Posts extends Component {
   }
 
   render() {
-    let { loadPostsByCategory } = this.props
+    let { loadPostsByCategory, loadPosts } = this.props
     let { items, comments, loading } = this.props.posts
     let { showCategories } = this.state
 
@@ -63,7 +63,8 @@ class Posts extends Component {
         {showCategories && (
           <CategoryDrawer
             toggleDrawer={this.toggleCategories}
-            loadPostsByCategory={loadPostsByCategory} />
+            loadPostsByCategory={loadPostsByCategory}
+            loadAllPosts={loadPosts} />
         )}
       </main>
     )
