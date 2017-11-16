@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Vote from './Vote'
 import CategoryDrawer from './CategoryDrawer'
+import Post from './Post'
 
 import { connect } from 'react-redux'
 
@@ -9,28 +9,6 @@ import { fetchPosts, fetchPostsByCategory } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
 import '../css/Posts.css'
-
-const dateString = (timestamp) => (
-  new Date(timestamp).toLocaleString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  })
-)
-
-const Post = ({post, comments = []}) => (
-  <section className="post-container" key={post.id}>
-    <Vote total={post.voteScore}/>
-    <div className="post-content">
-      <a href="#">{post.title}</a>
-      <div className="details">
-        By {post.author} on {dateString(post.timestamp)}&nbsp;|&nbsp;
-        { comments.length } Comments&nbsp;|&nbsp;
-        { post.category }
-      </div>
-    </div>
-  </section>
-)
 
 class Posts extends Component {
   state = {
@@ -58,7 +36,9 @@ class Posts extends Component {
 
         {loading && <div className="loading">Loading</div>}
 
-        {items && items.map(post => <Post key={post.id} post={post} comments={comments.filter(comment => comment.parentId === post.id)} />)}
+        {items.length === 0 ? (
+          <div className="no-data-found">No Posts Found</div>
+        ) : items.map(post => <Post key={post.id} post={post} comments={comments[post.id]} />)}
 
         {showCategories && (
           <CategoryDrawer

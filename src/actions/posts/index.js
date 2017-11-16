@@ -65,7 +65,7 @@ export const fetchComments = (postId) => {
         url: `${serverUrl}/posts/${postId}/comments`
       })
       .then(response => response.data)
-      .then(data => dispatch(receiveComments(data)))
+      .then(data => dispatch(receiveComments(data, postId)))
   }
 }
 
@@ -74,7 +74,8 @@ export const receivePosts = (data) => ({
   posts: data
 })
 
-export const receiveComments = (data) => ({
+export const receiveComments = (data, postId) => ({
   type: RECIEVE_COMMENTS,
-  comments: data
+  comments: data,
+  postId: postId
 })

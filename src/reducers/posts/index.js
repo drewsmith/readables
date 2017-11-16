@@ -23,10 +23,13 @@ const posts = (state = {
         items: action.posts.sort((first, second) => second.voteScore - first.voteScore)
       }
     case RECIEVE_COMMENTS:
-      let { comments = [] } = action
+      let { comments = [], postId } = action
       return {
         ...state,
-        comments: state.comments.concat(comments)
+        comments: {
+          ...state.comments,
+          [postId]: comments
+        }
       }
     case CREATE_POST:
       let { post } = action
