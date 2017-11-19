@@ -73,6 +73,7 @@ class AddPost extends Component {
         <div className={`field ${this.isError('text') ? 'error' : ''}`}>
           <label>Category</label>
           <select name="category" onChange={this.handleFormChange} value={category}>
+            <option>Select a category</option>
           {categories.items && categories.items.map(cat => (
             <option key={cat.name} value={cat.name}>{cat.name}</option>
           ))}

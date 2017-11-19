@@ -7,11 +7,9 @@ import { fetchPost } from '../actions/posts'
 
 class PostView extends Component {
   componentDidMount() {
-    let { params = {}, loadPost } = this.props
-    let { postId } = params
-
+    let { postId } = this.props.match.params
     if(postId) {
-      loadPost(postId)
+      this.props.loadPost(postId)
     }
   }
   render() {
@@ -31,14 +29,14 @@ class PostView extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading,
-    post: state.post
+    loading: state.posts.loading,
+    post: state.posts.post
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadPost: () => dispatch(fetchPost()),
+    loadPost: (postId) => dispatch(fetchPost(postId)),
   }
 }
 

@@ -39,7 +39,7 @@ export const fetchPost = (postId) => {
     dispatch(requestPost())
     return axios({
         headers,
-        url: `${serverUrl}/post/${postId}`
+        url: `${serverUrl}/posts/${postId}`
       })
       .then(response => response.data)
       .then(data => dispatch(receivePost(data)))
@@ -67,7 +67,7 @@ export const fetchPostsByCategory = (category = '') => {
       })
       .then(response => response.data)
       .then(data => {
-        dispatch(receivePosts(data))
+        dispatch(receivePosts(data, category))
         return data
       })
       .then(data => {
@@ -87,9 +87,10 @@ export const fetchComments = (postId) => {
   }
 }
 
-export const receivePosts = (data) => ({
+export const receivePosts = (data, category) => ({
   type: RECIEVE_POSTS,
-  posts: data
+  posts: data,
+  category: category
 })
 
 export const receivePost = (data) => ({

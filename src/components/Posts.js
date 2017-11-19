@@ -25,13 +25,13 @@ class Posts extends Component {
 
   render() {
     let { loadPostsByCategory, loadPosts } = this.props
-    let { items, comments, loading } = this.props.posts
+    let { items, comments, loading, category } = this.props.posts
     let { showCategories } = this.state
 
     return (
       <main>
         <section className="subheader">
-          {items.length} Posts for <span className="category-link" onClick={this.toggleCategories}>Category</span>
+          {items.length} Posts for <span className="category-link" onClick={this.toggleCategories}>{category}</span>
         </section>
 
         {loading && <div className="loading">Loading</div>}

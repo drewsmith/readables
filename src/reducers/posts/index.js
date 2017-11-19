@@ -7,11 +7,20 @@ import {
   CREATE_POST
 } from '../../actions/posts'
 
+const ALL_CATEGORY = 'All'
+
+const fixCase = (category = '') => (
+  category
+    ? `${category.charAt(0).toUpperCase()}${category.substr(1)}`
+    : ''
+)
+
 const posts = (state = {
   loading: false,
   items: [],
   comments: [],
-  post: null
+  post: null,
+  category: ALL_CATEGORY
 }, action) => {
   switch(action.type) {
     case REQUEST_POSTS:
@@ -23,7 +32,8 @@ const posts = (state = {
       return {
         ...state,
         loading: false,
-        items: action.posts.sort((first, second) => second.voteScore - first.voteScore)
+        items: action.posts.sort((first, second) => second.voteScore - first.voteScore),
+        category: fixCase(action.category ? action.category : ALL_CATEGORY)
       }
     case REQUEST_POST:
       return {
