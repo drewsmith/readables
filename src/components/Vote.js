@@ -22,20 +22,18 @@ class Vote extends Component {
     return (
       <section className="vote">
         <ArrowUp color={arrowColor} onClick={() => this.handleVote('up')} />
-        {this.props.total}
+        {this.state.total}
         <ArrowDown color={arrowColor} onClick={() => this.handleVote('down')} />
       </section>
     )
   }
 }
 
-const mapStateToProps = (state) => ({})
-
 const mapDispatchToProps = (dispatch) => ({
   vote: (postId, direction) => dispatch(vote(postId, direction))
 })
 
 export default connect(
-  mapStateToProps,
+  (state) => ({}),
   mapDispatchToProps
 )(Vote)

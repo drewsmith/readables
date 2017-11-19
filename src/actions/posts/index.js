@@ -98,7 +98,7 @@ export const vote = (postId, direction) => {
         data: {
           option: vote
         }
-      }).then(console.log)
+      }).then(() => {})
   }
 }
 

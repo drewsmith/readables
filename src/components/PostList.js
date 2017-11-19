@@ -1,14 +1,30 @@
 import React, { Component } from 'react'
-
 import CategoryDrawer from './CategoryDrawer'
-import Post from './Post'
+import Vote from './Vote'
 
+import { toDateString } from '../util'
+
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { fetchPosts, fetchPostsByCategory } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
 import '../css/Posts.css'
+
+const Post = ({post, comments = []}) => (
+  <section className="post-container" key={post.id}>
+    <Vote total={post.voteScore} postId={post.id}/>
+    <div className="post-content">
+      <Link to={`/post/${post.id}`}>{post.title}</Link>
+      <div className="details">
+        By {post.author} on {toDateString(post.timestamp)}&nbsp;|&nbsp;
+        { comments.length } Comments&nbsp;|&nbsp;
+        { post.category }
+      </div>
+    </div>
+  </section>
+)
 
 class Posts extends Component {
   state = {

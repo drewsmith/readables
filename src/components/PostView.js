@@ -1,9 +1,22 @@
 import React, { Component } from 'react'
-import Post from './Post'
 
 import { connect } from 'react-redux'
 
 import { fetchPost } from '../actions/posts'
+
+class Post extends Component {
+  componentDidMount() {
+
+  }
+  render() {
+    let { post } = this.props
+    return (
+      <div className="post-wrapper">
+        {post.title}
+      </div>
+    )
+  }
+}
 
 class PostView extends Component {
   componentDidMount() {
@@ -20,7 +33,7 @@ class PostView extends Component {
           <div>Loading</div>
         )}
         {post && (
-          <Post post={post} categories={[]} />
+          <Post post={post} />
         )}
       </div>
     )
