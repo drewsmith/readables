@@ -3,6 +3,8 @@ import { headers, serverUrl } from '../config'
 
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECIEVE_POSTS = 'RECIEVE_POSTS'
+export const REQUEST_POST = 'REQUEST_POST'
+export const RECIEVE_POST = 'RECIEVE_POST'
 export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 
@@ -25,6 +27,22 @@ export const fetchPosts = () => {
       .then(data => {
         data.map(post => dispatch(fetchComments(post.id)))
       })
+  }
+}
+
+export const requestPost = () => ({
+  type: REQUEST_POST
+})
+
+export const fetchPost = (postId) => {
+  return dispatch => {
+    dispatch(requestPost())
+    return axios({
+        headers,
+        url: `${serverUrl}/post/${postId}`
+      })
+      .then(response => response.data)
+      .then(data => dispatch(receivePost(data)))
   }
 }
 
@@ -72,6 +90,11 @@ export const fetchComments = (postId) => {
 export const receivePosts = (data) => ({
   type: RECIEVE_POSTS,
   posts: data
+})
+
+export const receivePost = (data) => ({
+  type: RECIEVE_POST,
+  post: data
 })
 
 export const receiveComments = (data, postId) => ({

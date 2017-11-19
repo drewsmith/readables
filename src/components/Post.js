@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { Link } from 'react-router-dom'
 import Vote from './Vote'
 
 const dateString = (timestamp) => (
@@ -14,7 +14,7 @@ const Post = ({post, comments = []}) => (
   <section className="post-container" key={post.id}>
     <Vote total={post.voteScore}/>
     <div className="post-content">
-      <a href="#">{post.title}</a>
+      <Link to={`/post/${post.id}`}>{post.title}</Link>
       <div className="details">
         By {post.author} on {dateString(post.timestamp)}&nbsp;|&nbsp;
         { comments.length } Comments&nbsp;|&nbsp;

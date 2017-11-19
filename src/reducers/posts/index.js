@@ -1,6 +1,8 @@
 import {
   REQUEST_POSTS,
   RECIEVE_POSTS,
+  REQUEST_POST,
+  RECIEVE_POST,
   RECIEVE_COMMENTS,
   CREATE_POST
 } from '../../actions/posts'
@@ -8,7 +10,8 @@ import {
 const posts = (state = {
   loading: false,
   items: [],
-  comments: []
+  comments: [],
+  post: null
 }, action) => {
   switch(action.type) {
     case REQUEST_POSTS:
@@ -22,6 +25,17 @@ const posts = (state = {
         loading: false,
         items: action.posts.sort((first, second) => second.voteScore - first.voteScore)
       }
+    case REQUEST_POST:
+      return {
+        ...state,
+        loading: true
+      }
+    case RECIEVE_POST:
+      return {
+        ...state,
+        loading: false,
+        post: action.post
+      }
     case RECIEVE_COMMENTS:
       let { comments = [], postId } = action
       return {
@@ -32,10 +46,9 @@ const posts = (state = {
         }
       }
     case CREATE_POST:
-      let { post } = action
       return {
         ...state,
-        posts: state.posts.concat(post)
+        posts: state.posts.concat(action.post)
       }
     default:
       return state

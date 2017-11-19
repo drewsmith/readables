@@ -36,7 +36,7 @@ class Posts extends Component {
 
         {loading && <div className="loading">Loading</div>}
 
-        {items.length === 0 ? (
+        {!loading && items.length === 0 ? (
           <div className="no-data-found">No Posts Found</div>
         ) : items.map(post => <Post key={post.id} post={post} comments={comments[post.id]} />)}
 
