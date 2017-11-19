@@ -51,11 +51,9 @@ class Posts extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = (state) => ({
     posts: state.posts
-  }
-}
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {

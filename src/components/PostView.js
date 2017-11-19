@@ -27,18 +27,14 @@ class PostView extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.posts.loading,
-    post: state.posts.post
-  }
-}
+const mapStateToProps = (state) => ({
+  loading: state.posts.loading,
+  post: state.posts.post
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadPost: (postId) => dispatch(fetchPost(postId)),
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  loadPost: (postId) => dispatch(fetchPost(postId))
+})
 
 export default connect(
   mapStateToProps,

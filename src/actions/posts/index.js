@@ -7,6 +7,7 @@ export const REQUEST_POST = 'REQUEST_POST'
 export const RECIEVE_POST = 'RECIEVE_POST'
 export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
+export const VOTE = 'VOTE'
 
 export const requestPosts = () => ({
   type: REQUEST_POSTS
@@ -84,6 +85,20 @@ export const fetchComments = (postId) => {
       })
       .then(response => response.data)
       .then(data => dispatch(receiveComments(data, postId)))
+  }
+}
+
+export const vote = (postId, direction) => {
+  return dispatch => {
+    let vote = direction === 'up' ? 'upVote' : 'downVote'
+    return axios({
+        headers,
+        method: 'POST',
+        url: `${serverUrl}/posts/${postId}`,
+        data: {
+          option: vote
+        }
+      }).then(console.log)
   }
 }
 

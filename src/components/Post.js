@@ -12,7 +12,7 @@ const dateString = (timestamp) => (
 
 const Post = ({post, comments = []}) => (
   <section className="post-container" key={post.id}>
-    <Vote total={post.voteScore}/>
+    <Vote total={post.voteScore} postId={post.id}/>
     <div className="post-content">
       <Link to={`/post/${post.id}`}>{post.title}</Link>
       <div className="details">
