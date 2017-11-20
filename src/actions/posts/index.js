@@ -43,7 +43,11 @@ export const fetchPost = (postId) => {
         url: `${serverUrl}/posts/${postId}`
       })
       .then(response => response.data)
-      .then(data => dispatch(receivePost(data)))
+      .then(data => {
+        dispatch(receivePost(data))
+        return data
+      })
+      .then(data => dispatch(fetchComments(data.id)))
   }
 }
 
@@ -55,7 +59,6 @@ export const createPost = (post) => {
         url: `${serverUrl}/posts`,
         data: post
       })
-      .then(console.log)
   }
 }
 
@@ -98,7 +101,7 @@ export const vote = (postId, direction) => {
         data: {
           option: vote
         }
-      }).then(() => {})
+      })
   }
 }
 

@@ -1,32 +1,21 @@
 import React, { Component } from 'react'
 import CategoryDrawer from './CategoryDrawer'
-import Vote from './Vote'
-
-import { toDateString } from '../util'
-
-import { Link } from 'react-router-dom'
+import Post from './Post'
 import { connect } from 'react-redux'
 
 import { fetchPosts, fetchPostsByCategory } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
-import '../css/Posts.css'
-
-const Post = ({post, comments = []}) => (
-  <section className="post-container" key={post.id}>
-    <Vote total={post.voteScore} postId={post.id}/>
-    <div className="post-content">
-      <Link to={`/post/${post.id}`}>{post.title}</Link>
-      <div className="details">
-        By {post.author} on {toDateString(post.timestamp)}&nbsp;|&nbsp;
-        { comments.length } Comments&nbsp;|&nbsp;
-        { post.category }
-      </div>
-    </div>
-  </section>
+const ItemList = ({items, comments}) => (
+  <div>
+    {items.length === 0
+      ? <div className="no-data-found">No Posts Found</div>
+      : items.map(post => <Post key={post.id} post={post} comments={comments[post.id]} />)
+    }
+  </div>
 )
 
-class Posts extends Component {
+class PostList extends Component {
   state = {
     showCategories: false
   }
@@ -41,7 +30,7 @@ class Posts extends Component {
 
   render() {
     let { loadPostsByCategory, loadPosts } = this.props
-    let { items, comments, loading, category } = this.props.posts
+    let { items, loading, category } = this.props.posts
     let { showCategories } = this.state
 
     return (
@@ -50,11 +39,9 @@ class Posts extends Component {
           {items.length} Posts for <span className="category-link" onClick={this.toggleCategories}>{category}</span>
         </section>
 
-        {loading && <div className="loading">Loading</div>}
-
-        {!loading && items.length === 0 ? (
-          <div className="no-data-found">No Posts Found</div>
-        ) : items.map(post => <Post key={post.id} post={post} comments={comments[post.id]} />)}
+        {loading
+          ? <div className="loading">Loading</div>
+          : <ItemList {...this.props.posts} /> }
 
         {showCategories && (
           <CategoryDrawer
@@ -82,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Posts)
+)(PostList)
