@@ -2,16 +2,54 @@ import React, { Component } from 'react'
 import Post from './Post'
 import Comment from './Comment'
 import Loading from './Loading'
-import { connect } from 'react-redux'
+import CommentModal from './CommentModal'
 
+import Add from 'material-ui-icons/Add'
+
+import { connect } from 'react-redux'
 import { fetchPost } from '../actions/posts'
 
-const CommentList = ({comments = []}) => (
-  <div>
-    <div className="comments-divider">Comments ({comments.length})</div>
-    {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
-  </div>
-)
+const iconStyles = {
+  plus: {
+    width: 14,
+    height: 14,
+    verticalAlign: 'middle'
+  },
+  text: {
+    lineHeight: '20px',
+    padding: '4px 5px 0 5px'
+  }
+}
+
+class CommentList extends Component {
+  state = {
+    openModal: false
+  }
+
+  toggleModal = () => this.setState((state) => ({ openModal: !state.openModal }))
+
+  render() {
+    let { comments } = this.props
+    let { openModal } = this.state
+
+    return (
+      <div>
+        <div className="comments-divider">
+          Comments ({comments.length})
+          <button className="add-comment-button" onClick={this.toggleModal}>
+            <Add color="#455A64" style={iconStyles.plus} />
+            <span style={iconStyles.text}>Add Comment</span>
+          </button>
+        </div>
+
+        {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+
+        <CommentModal isOpen={openModal} onClose={this.toggleModal} onSave={()=>{}} />
+      </div>
+    )
+  }
+
+}
 
 class PostView extends Component {
   componentDidMount() {
@@ -20,6 +58,7 @@ class PostView extends Component {
       this.props.loadPost(postId)
     }
   }
+
   render() {
     let { loading, post, comments } = this.props
     return (

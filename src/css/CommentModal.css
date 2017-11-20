@@ -1,0 +1,30 @@
+.modal-title-wrapper {
+  background: #2196F3;
+  padding: 10px;
+  color: #ffffff;
+  display: flex;
+}
+
+.modal-title {
+  flex-grow: 1;
+}
+
+.close-modal-icon {
+  cursor: pointer;
+}
+
+.modal-footer {
+  padding: 10px 0;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.modal-save-button {
+  background: #2196F3;
+  color: #ffffff;
+  font-size: 12px;
+  text-transform: uppercase;
+  border: 0px;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
