@@ -8,6 +8,7 @@ export const RECIEVE_POST = 'RECIEVE_POST'
 export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 export const VOTE = 'VOTE'
+export const SORT_BY = 'SORT'
 
 export const requestPosts = () => ({
   type: REQUEST_POSTS
@@ -120,4 +121,9 @@ export const receiveComments = (data, postId) => ({
   type: RECIEVE_COMMENTS,
   comments: data,
   postId: postId
+})
+
+export const sortPostsBy = (sortMethod) => ({
+  type: SORT_BY,
+  sortMethod: sortMethod
 })

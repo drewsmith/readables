@@ -3,7 +3,7 @@ import CategoryDrawer from './CategoryDrawer'
 import Post from './Post'
 import { connect } from 'react-redux'
 
-import { fetchPosts, fetchPostsByCategory } from '../actions/posts'
+import { fetchPosts, fetchPostsByCategory, sortPostsBy } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
 const ItemList = ({items, comments}) => (
@@ -28,15 +28,23 @@ class PostList extends Component {
     loadPosts()
   }
 
+  handleSortChange = e => this.props.sortPosts(e.target.value)
+
   render() {
     let { loadPostsByCategory, loadPosts } = this.props
-    let { items, loading, category } = this.props.posts
+    let { items, loading, category, sortMethod } = this.props.posts
     let { showCategories } = this.state
 
     return (
       <main>
         <section className="subheader">
           {items.length} Posts for <span className="category-link" onClick={this.toggleCategories}>{category}</span>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          Sort By:&nbsp;
+          <select value={sortMethod} onChange={this.handleSortChange}>
+            <option value="voteScore">Vote Score</option>
+            <option value="createDate">Create Date</option>
+          </select>
         </section>
 
         {loading
@@ -62,7 +70,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadCategories: () => dispatch(fetchCategories()),
     loadPosts: () => dispatch(fetchPosts()),
-    loadPostsByCategory: (category) => dispatch(fetchPostsByCategory(category))
+    loadPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
+    sortPosts: (sortMethod) => dispatch(sortPostsBy(sortMethod))
   }
 }
 
