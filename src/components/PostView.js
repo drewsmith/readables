@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Post from './Post'
 import Comment from './Comment'
+import Loading from './Loading'
 import { connect } from 'react-redux'
 
 import { fetchPost } from '../actions/posts'
@@ -23,8 +24,8 @@ class PostView extends Component {
     let { loading, post, comments } = this.props
     return (
       <div>
-        {loading && <div>Loading</div>}
-        {post && (
+        {loading && <Loading />}
+        {post && !loading && (
           <div>
             <Post post={post} comments={comments[post.id]} />
             {comments[post.id] && <CommentList comments={comments[post.id]} />}
