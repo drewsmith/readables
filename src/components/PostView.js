@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Post from './Post'
 import Comment from './Comment'
 import Loading from './Loading'
-import CommentModal from './CommentModal'
+import CommentModal from './modal/CommentModal'
 
 import Add from 'material-ui-icons/Add'
 
@@ -44,7 +44,7 @@ class CommentList extends Component {
 
         {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
 
-        <CommentModal isOpen={openModal} onClose={this.toggleModal} onSave={()=>{}} />
+        <CommentModal isOpen={openModal} onClose={this.toggleModal} />
       </div>
     )
   }

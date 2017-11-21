@@ -79,7 +79,6 @@ class AddPost extends Component {
           ))}
           </select>
         </div>
-        <button className="add-post-button" onClick={this.handleAddPost}>Add Post</button>
       </div>
     )
   }
