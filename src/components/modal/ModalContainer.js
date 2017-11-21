@@ -40,6 +40,7 @@ const ModalContainer = ({
     </div>
     <div className="modal-footer">
       <button className="modal-save-button">{saveText}</button>
+      <button className="close-button" onClick={onClose}>Close</button>
     </div>
   </Modal>
 )

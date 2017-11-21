@@ -41,3 +41,13 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.close-button {
+  border: 0px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: transparent;
+  color: #666666;
+  font-size: 12px;
+  text-transform: uppercase;
+}
