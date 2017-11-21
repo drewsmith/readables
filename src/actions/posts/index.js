@@ -92,13 +92,27 @@ export const fetchComments = (postId) => {
   }
 }
 
-export const vote = (postId, direction) => {
+export const votePost = (postId, direction) => {
   return dispatch => {
     let vote = direction === 'up' ? 'upVote' : 'downVote'
     return axios({
         headers,
         method: 'POST',
         url: `${serverUrl}/posts/${postId}`,
+        data: {
+          option: vote
+        }
+      })
+  }
+}
+
+export const voteComment = (commentId, direction) => {
+  return dispatch => {
+    let vote = direction === 'up' ? 'upVote' : 'downVote'
+    return axios({
+        headers,
+        method: 'POST',
+        url: `${serverUrl}/comments/${commentId}`,
         data: {
           option: vote
         }

@@ -4,7 +4,7 @@ import { toDateString } from '../util'
 
 const Comment = ({comment}) => (
   <div className="comment-container">
-    <Vote total={comment.voteScore} />
+    <Vote total={comment.voteScore} commentId={comment.id} />
     <div className="comment-content">
       {comment.body}
       <div className="details">

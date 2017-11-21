@@ -4,7 +4,7 @@ import ArrowUp from 'material-ui-icons/ArrowDropUp'
 import ArrowDown from 'material-ui-icons/ArrowDropDown'
 
 import { connect } from 'react-redux'
-import { vote } from '../actions/posts'
+import { votePost, voteComment } from '../actions/posts'
 
 const arrowColor = '#455A64'
 
@@ -14,12 +14,20 @@ class Vote extends Component {
   state = {
     total: this.props.total
   }
+
   handleVote(direction) {
-    this.props.vote(this.props.postId, direction)
-    this.setState((state) => ({
-      total: direction === 'up' ? state.total += 1 : state.total -= 1
-    }))
+    let { isPost, votePost, voteComment } = this.props
+    let vote = isPost ? votePost : voteComment
+    let id = isPost ? this.props.postId : this.props.commentId
+
+    vote(id, direction).then(() => {
+      this.setState((state) => ({
+        total: direction === 'up' ? state.total += 1 : state.total -= 1
+      }))
+    })
+
   }
+
   render() {
     return (
       <section className="vote">
@@ -32,7 +40,8 @@ class Vote extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  vote: (postId, direction) => dispatch(vote(postId, direction))
+  votePost: (postId, direction) => dispatch(votePost(postId, direction)),
+  voteComment: (commentId, direction) => dispatch(voteComment(commentId, direction))
 })
 
 export default connect(

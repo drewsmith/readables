@@ -7,7 +7,7 @@ import '../css/Posts.css'
 
 const Post = ({post, comments = []}) => (
   <section className="post-container" key={post.id}>
-    <Vote total={post.voteScore} postId={post.id}/>
+    <Vote total={post.voteScore} postId={post.id} isPost={true} />
     <div className="post-content">
       <Link to={`/post/${post.id}`}>{post.title}</Link>
       <p>{post.body}</p>
