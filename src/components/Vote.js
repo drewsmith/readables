@@ -8,6 +8,8 @@ import { vote } from '../actions/posts'
 
 const arrowColor = '#455A64'
 
+const pointer = { cursor: 'pointer' }
+
 class Vote extends Component {
   state = {
     total: this.props.total
@@ -21,9 +23,9 @@ class Vote extends Component {
   render() {
     return (
       <section className="vote">
-        <ArrowUp color={arrowColor} onClick={() => this.handleVote('up')} />
+        <ArrowUp style={pointer} color={arrowColor} onClick={() => this.handleVote('up')} />
         {this.state.total}
-        <ArrowDown color={arrowColor} onClick={() => this.handleVote('down')} />
+        <ArrowDown style={pointer} color={arrowColor} onClick={() => this.handleVote('down')} />
       </section>
     )
   }

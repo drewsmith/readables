@@ -8,6 +8,7 @@ import Add from 'material-ui-icons/Add'
 
 import { connect } from 'react-redux'
 import { fetchPost } from '../actions/posts'
+import { sortByVoteScore } from '../util'
 
 const iconStyles = {
   plus: {
@@ -42,7 +43,7 @@ class CommentList extends Component {
           </button>
         </div>
 
-        {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+        {comments.sort(sortByVoteScore).map(comment => <Comment key={comment.id} comment={comment} />)}
 
         <CommentModal isOpen={openModal} onClose={this.toggleModal} />
       </div>

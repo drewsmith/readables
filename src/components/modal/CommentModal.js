@@ -1,5 +1,6 @@
 import React from 'react'
 import ModalContainer from './ModalContainer'
+import AddComment from '../AddComment'
 
 const CommentModal = ({isOpen, onClose, onSave}) => (
   <ModalContainer
@@ -9,9 +10,7 @@ const CommentModal = ({isOpen, onClose, onSave}) => (
     onClose={onClose}
     onSave={onSave}
   >
-    <div>
-      comment
-    </div>
+    <AddComment />
   </ModalContainer>
 )
 
