@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 
 import '../css/Posts.css'
 
-const Post = ({post, comments = []}) => (
+const Post = ({post, comments = [], onVote}) => (
   <section className="post-container" key={post.id}>
-    <Vote total={post.voteScore} postId={post.id} isPost={true} />
+    <Vote total={post.voteScore} voteId={post.id} onVote={onVote} />
     <div className="post-content">
       <Link to={`/post/${post.id}`}>{post.title}</Link>
       <p>{post.body}</p>

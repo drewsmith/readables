@@ -7,7 +7,7 @@ import CommentModal from './modal/CommentModal'
 import Add from 'material-ui-icons/Add'
 
 import { connect } from 'react-redux'
-import { fetchPost } from '../actions/posts'
+import { fetchPost, votePost, voteComment } from '../actions/posts'
 import { sortByVoteScore } from '../util'
 
 const iconStyles = {
@@ -30,7 +30,7 @@ class CommentList extends Component {
   toggleModal = () => this.setState((state) => ({ openModal: !state.openModal }))
 
   render() {
-    let { comments } = this.props
+    let { comments, voteComment } = this.props
     let { openModal } = this.state
 
     return (
@@ -43,7 +43,13 @@ class CommentList extends Component {
           </button>
         </div>
 
-        {comments.sort(sortByVoteScore).map(comment => <Comment key={comment.id} comment={comment} />)}
+        {comments.sort(sortByVoteScore).map(comment => (
+          <Comment
+            key={comment.id}
+            comment={comment}
+            onVote={voteComment}
+          />
+        ))}
 
         <CommentModal isOpen={openModal} onClose={this.toggleModal} />
       </div>
@@ -61,14 +67,14 @@ class PostView extends Component {
   }
 
   render() {
-    let { loading, post, comments } = this.props
+    let { loading, post, comments, votePost, voteComment } = this.props
     return (
       <div>
         {loading && <Loading />}
         {post && !loading && (
           <div>
-            <Post post={post} comments={comments[post.id]} />
-            {comments[post.id] && <CommentList comments={comments[post.id]} />}
+            <Post {...this.props} />
+            {comments[post.id] && <CommentList {...this.props} />}
           </div>
         )}
       </div>
@@ -85,7 +91,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  loadPost: (postId) => dispatch(fetchPost(postId))
+  loadPost: (postId) => dispatch(fetchPost(postId)),
+  votePost: (postId, direction) => dispatch(votePost(postId, direction)),
+  voteComment: (commentId, direction) => dispatch(voteComment(commentId, direction)),
 })
 
 export default connect(
