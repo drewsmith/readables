@@ -42,7 +42,7 @@ class CommentModal extends Component {
 
   valid = () => {
     let { comment } = this.state
-    return (comment.author && comment.author.trim().length > 0) ||
+    return (comment.author && comment.author.trim().length > 0) && 
       (comment.body && comment.body.trim().length > 0)
   }
 
@@ -74,7 +74,7 @@ class CommentModal extends Component {
 
     return (
       <ModalContainer
-        title="Add Comment"
+        title={`${comment.id ? 'Update' : 'Add'} Comment`}
         saveText={`${comment.id ? 'Update' : 'Save'} Comment`}
         isOpen={isOpen}
         onClose={this.closeModal}

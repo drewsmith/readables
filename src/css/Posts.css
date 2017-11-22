@@ -113,7 +113,7 @@
   cursor: pointer;
 }
 
-.comment-button {
+.footer-button {
   background: transparent;
   border: 0;
   color: #333333;
@@ -121,14 +121,5 @@
   text-decoration: underline;
   padding: 0;
   margin: 0;
-}
-
-.error {
-  background: rgba(255, 0, 0, .15);
-  color: #c11;
-  border:1px solid rgba(255, 0, 0, .25);
-  padding: 10px;
-  text-align: center;
-  margin-bottom: 5px;
-  border-radius: 5px;
+  font-size: 12px;
 }

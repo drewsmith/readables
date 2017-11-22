@@ -38,9 +38,9 @@ class Comment extends Component {
             By {comment.author} on {toDateString(comment.timestamp)}
           </div>
           <div className="comment-footer">
-            <button onClick={this.toggleModal} className="comment-button">Edit</button>
+            <button onClick={this.toggleModal} className="footer-button">Edit</button>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <button onClick={this.deleteComment} className="comment-button">Delete</button>
+            <button onClick={this.deleteComment} className="footer-button">Delete</button>
           </div>
         </div>
 

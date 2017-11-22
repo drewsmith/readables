@@ -8,6 +8,7 @@ export const RECIEVE_POST = 'RECIEVE_POST'
 export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 export const VOTE = 'VOTE'
+export const RECEIVE_VOTE = 'RECEIVE_VOTE'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
@@ -62,7 +63,7 @@ export const createPost = (post) => {
         method: 'POST',
         url: `${serverUrl}/posts`,
         data: post
-      })
+      }).then(() => dispatch(fetchPosts()))
   }
 }
 
@@ -106,6 +107,8 @@ export const votePost = (postId, direction) => {
           option: vote
         }
       })
+      .then(response => response.data)
+      .then(data => dispatch(recieveVote(data)))
   }
 }
 
@@ -150,6 +153,17 @@ export const deleteComment = (commentId) => {
   }
 }
 
+export const deletePost = (postId) => {
+  return dispatch => {
+    return axios({
+        headers,
+        method: 'DELETE',
+        url: `${serverUrl}/posts/${postId}`
+      })
+      .then(() => dispatch(fetchPosts(postId)))
+  }
+}
+
 export const receivePosts = (data, category) => ({
   type: RECIEVE_POSTS,
   posts: data,
@@ -158,6 +172,11 @@ export const receivePosts = (data, category) => ({
 
 export const receivePost = (data) => ({
   type: RECIEVE_POST,
+  post: data
+})
+
+export const recieveVote = (data) => ({
+  type: RECEIVE_VOTE,
   post: data
 })
 

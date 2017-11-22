@@ -3,10 +3,10 @@ import CategoryDrawer from './CategoryDrawer'
 import Post from './Post'
 import { connect } from 'react-redux'
 
-import { fetchPosts, fetchPostsByCategory, sortPostsBy, votePost } from '../actions/posts'
+import { fetchPosts, fetchPostsByCategory, sortPostsBy } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
-const ItemList = ({items, comments, onVote}) => (
+const ItemList = ({items, comments}) => (
   <div>
     {items.length === 0
       ? <div className="no-data-found">No Posts Found</div>
@@ -15,7 +15,7 @@ const ItemList = ({items, comments, onVote}) => (
           key={post.id}
           post={post}
           comments={comments[post.id]}
-          onVote={onVote} />
+        />
       ))
     }
   </div>
@@ -37,8 +37,8 @@ class PostList extends Component {
   handleSortChange = e => this.props.sortPosts(e.target.value)
 
   render() {
-    let { loadPostsByCategory, loadPosts, votePost } = this.props
-    let { items, loading, category, sortMethod } = this.props.posts
+    let { loadPostsByCategory, loadPosts, items, comments } = this.props
+    let { loading, category, sortMethod } = this.props.posts
     let { showCategories } = this.state
 
     return (
@@ -54,7 +54,7 @@ class PostList extends Component {
         </section>
         {loading
           ? <div className="loading">Loading</div>
-          : <ItemList onVote={votePost} {...this.props.posts} /> }
+          : <ItemList items={items} comments={comments} /> }
 
         {showCategories && (
           <CategoryDrawer
@@ -67,17 +67,20 @@ class PostList extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  return {
+    items: state.posts.items,
+    comments: state.posts.comments,
     posts: state.posts
-})
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCategories: () => dispatch(fetchCategories()),
     loadPosts: () => dispatch(fetchPosts()),
     loadPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
-    sortPosts: (sortMethod) => dispatch(sortPostsBy(sortMethod)),
-    votePost: (postId, direction) => dispatch(votePost(postId, direction))
+    sortPosts: (sortMethod) => dispatch(sortPostsBy(sortMethod))
   }
 }
 

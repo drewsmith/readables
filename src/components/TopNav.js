@@ -22,7 +22,10 @@ class TopNav extends Component {
           <li><Link to="/">View All Posts</Link></li>
           <li><span onClick={this.toggleModal}>Add Post</span></li>
         </ul>
-        <AddPostModal isOpen={openModal} onClose={this.toggleModal} />
+        <AddPostModal
+          isOpen={openModal}
+          onClose={this.toggleModal}
+        />
       </header>
     )
   }
