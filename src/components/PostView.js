@@ -30,9 +30,8 @@ class CommentList extends Component {
   toggleModal = () => this.setState((state) => ({ openModal: !state.openModal }))
 
   render() {
-    let { comments, voteComment } = this.props
+    let { comments, onVoteComment } = this.props
     let { openModal } = this.state
-
     return (
       <div>
         <div className="comments-divider">
@@ -47,7 +46,7 @@ class CommentList extends Component {
           <Comment
             key={comment.id}
             comment={comment}
-            onVote={voteComment}
+            onVote={onVoteComment}
           />
         ))}
 
@@ -67,14 +66,14 @@ class PostView extends Component {
   }
 
   render() {
-    let { loading, post, comments, votePost, voteComment } = this.props
+    let { loading, post, comments, onVotePost, onVoteComment } = this.props
     return (
       <div>
         {loading && <Loading />}
         {post && !loading && (
           <div>
-            <Post {...this.props} />
-            {comments[post.id] && <CommentList {...this.props} />}
+            <Post post={post} comments={comments[post.id]} onVote={onVotePost} />
+            {comments[post.id] && <CommentList comments={comments[post.id]} onVoteComment={onVoteComment} />}
           </div>
         )}
       </div>
@@ -92,8 +91,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   loadPost: (postId) => dispatch(fetchPost(postId)),
-  votePost: (postId, direction) => dispatch(votePost(postId, direction)),
-  voteComment: (commentId, direction) => dispatch(voteComment(commentId, direction)),
+  onVotePost: (postId, direction) => dispatch(votePost(postId, direction)),
+  onVoteComment: (commentId, direction) => dispatch(voteComment(commentId, direction))
 })
 
 export default connect(

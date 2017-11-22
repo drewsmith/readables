@@ -8,6 +8,7 @@ export const RECIEVE_POST = 'RECIEVE_POST'
 export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 export const VOTE = 'VOTE'
+export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const SORT_BY = 'SORT'
 
 export const requestPosts = () => ({
@@ -117,6 +118,8 @@ export const voteComment = (commentId, direction) => {
           option: vote
         }
       })
+      .then(response => response.data)
+      .then(data => dispatch(updateComment(data)))
   }
 }
 
@@ -140,4 +143,9 @@ export const receiveComments = (data, postId) => ({
 export const sortPostsBy = (sortMethod) => ({
   type: SORT_BY,
   sortMethod: sortMethod
+})
+
+export const updateComment = (comment) => ({
+  type: UPDATE_COMMENT,
+  comment: comment
 })

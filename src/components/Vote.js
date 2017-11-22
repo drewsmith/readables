@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
+
+import PropTypes from 'prop-types'
 
 import ArrowUp from 'material-ui-icons/ArrowDropUp'
 import ArrowDown from 'material-ui-icons/ArrowDropDown'
@@ -7,30 +9,22 @@ const arrowColor = '#455A64'
 
 const pointer = { cursor: 'pointer' }
 
-class Vote extends Component {
-  state = {
-    total: this.props.total
-  }
+const Vote = ({total, voteId, onVote}) => (
+  <section className="vote">
+    <ArrowUp style={pointer} color={arrowColor} onClick={() => onVote(voteId, 'up')} />
+    {total}
+    <ArrowDown style={pointer} color={arrowColor} onClick={() => onVote(voteId, 'down')} />
+  </section>
+)
 
-  handleVote(direction) {
-    let { onVote, voteId } = this.props
-    onVote(voteId, direction).then(() => {
-      this.setState((state) => ({
-        total: direction === 'up' ? state.total += 1 : state.total -= 1
-      }))
-    })
+Vote.propTypes = {
+  total: PropTypes.number,
+  onVote: PropTypes.func.isRequired,
+  voteId: PropTypes.string.isRequired
+}
 
-  }
-
-  render() {
-    return (
-      <section className="vote">
-        <ArrowUp style={pointer} color={arrowColor} onClick={() => this.handleVote('up')} />
-        {this.state.total}
-        <ArrowDown style={pointer} color={arrowColor} onClick={() => this.handleVote('down')} />
-      </section>
-    )
-  }
+Vote.defaultProps = {
+  total: 0
 }
 
 export default Vote

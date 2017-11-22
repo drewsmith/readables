@@ -1,5 +1,7 @@
 import React from 'react'
 import Vote from './Vote'
+import PropTypes from 'prop-types'
+
 import { toDateString } from '../util'
 
 const Comment = ({comment, onVote}) => (
@@ -13,5 +15,10 @@ const Comment = ({comment, onVote}) => (
     </div>
   </div>
 )
+
+Comment.propTypes = {
+  comment: PropTypes.object.isRequired,
+  onVote: PropTypes.func.isRequired
+}
 
 export default Comment

@@ -5,7 +5,8 @@ import {
   RECIEVE_POST,
   RECIEVE_COMMENTS,
   CREATE_POST,
-  SORT_BY
+  SORT_BY,
+  UPDATE_COMMENT
 } from '../../actions/posts'
 
 import { sortByVoteScore, sortByTimestamp } from '../../util'
@@ -78,6 +79,16 @@ const posts = (state = {
         ...state,
         sortMethod: action.sortMethod,
         items: state.items.sort(sortBy(action.sortMethod))
+      }
+    case UPDATE_COMMENT:
+      return {
+        ...state,
+        comments: {
+          ...state.comments,
+          [action.comment.parentId]: Object.assign([],
+            state.comments[action.comment.parentId].filter(prev => prev.id !== action.comment.id)
+          ).concat(action.comment)
+        }
       }
     default:
       return state
