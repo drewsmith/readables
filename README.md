@@ -13,6 +13,7 @@ Readables is a Reddit clone that allows users to:
 ## Demo
 
 App: https://readables-drew.herokuapp.com/
+
 API: https://readables-api-drew.herokuapp.com/
 
 ## Building Locally
