@@ -9,6 +9,8 @@ export const CREATE_POST = 'CREATE_POST'
 export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 export const VOTE = 'VOTE'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const SORT_BY = 'SORT'
 
 export const requestPosts = () => ({
@@ -123,6 +125,31 @@ export const voteComment = (commentId, direction) => {
   }
 }
 
+export const addComment = (comment) => {
+  return dispatch => {
+    return axios({
+        headers,
+        method: 'POST',
+        url: `${serverUrl}/comments`,
+        data: comment
+      })
+      .then(response => response.data)
+      .then(data => dispatch(updateComment(data)))
+  }
+}
+
+export const deleteComment = (commentId) => {
+  return dispatch => {
+    return axios({
+        headers,
+        method: 'DELETE',
+        url: `${serverUrl}/comments/${commentId}`
+      })
+      .then(response => response.data)
+      .then(data => dispatch(fetchComments(data.parentId)))
+  }
+}
+
 export const receivePosts = (data, category) => ({
   type: RECIEVE_POSTS,
   posts: data,
@@ -148,4 +175,9 @@ export const sortPostsBy = (sortMethod) => ({
 export const updateComment = (comment) => ({
   type: UPDATE_COMMENT,
   comment: comment
+})
+
+export const removeComment = (commentId) => ({
+  type: REMOVE_COMMENT,
+  commentId: commentId
 })

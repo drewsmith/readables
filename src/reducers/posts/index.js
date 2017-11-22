@@ -6,7 +6,8 @@ import {
   RECIEVE_COMMENTS,
   CREATE_POST,
   SORT_BY,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  REMOVE_COMMENT
 } from '../../actions/posts'
 
 import { sortByVoteScore, sortByTimestamp } from '../../util'
@@ -31,7 +32,7 @@ const sortBy = (sortMethod = VOTE_SCORE) => {
 const posts = (state = {
   loading: false,
   items: [],
-  comments: [],
+  comments: {},
   post: null,
   category: ALL_CATEGORY,
   sortMethod: VOTE_SCORE
@@ -66,7 +67,7 @@ const posts = (state = {
         ...state,
         comments: {
           ...state.comments,
-          [postId]: comments.sort(sortBy(state.sortMethod))
+          [postId]: comments.filter(comment => !comment.deleted).sort(sortBy(state.sortMethod))
         }
       }
     case CREATE_POST:
@@ -88,6 +89,13 @@ const posts = (state = {
           [action.comment.parentId]: Object.assign([],
             state.comments[action.comment.parentId].filter(prev => prev.id !== action.comment.id)
           ).concat(action.comment)
+        }
+      }
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        comments: {
+          ...state.comments.filter(prev => prev.id !== action.commentId)
         }
       }
     default:
