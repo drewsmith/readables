@@ -57,7 +57,6 @@ const posts = (state = {
         loading: true
       }
     case RECIEVE_POST:
-    console.log(state.items.filter(post => post.id !== action.post.id))
       return {
         ...state,
         loading: false,

@@ -9,7 +9,8 @@ import CommentModal from './modal/CommentModal'
 import Add from 'material-ui-icons/Add'
 
 import { connect } from 'react-redux'
-import { fetchPost, addComment } from '../actions/posts'
+import { fetchPost, addComment, votePost, deletePost } from '../actions/posts'
+
 import { sortByVoteScore } from '../util'
 
 const iconStyles = {
@@ -104,7 +105,7 @@ class PostView extends Component {
   }
 
   render() {
-    let { loading, post, comments, onAddComment } = this.props
+    let { loading, post, comments, onAddComment, onVotePost, onDeletePost } = this.props
     return (
       <div>
         {loading && <Loading />}
@@ -113,6 +114,8 @@ class PostView extends Component {
             <Post
               post={post}
               comments={comments[post.id]}
+              onVotePost={onVotePost}
+              onDeletePost={onDeletePost}
             />
             {comments[post.id] && (
               <CommentList
@@ -145,7 +148,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   loadPost: (postId) => dispatch(fetchPost(postId)),
-  onAddComment: (comment) => dispatch(addComment(comment))
+  onAddComment: (comment) => dispatch(addComment(comment)),
+  onVotePost: (postId, direction) => dispatch(votePost(postId, direction)),
+  onDeletePost: (postId) => dispatch(deletePost(postId))
 })
 
 export default connect(

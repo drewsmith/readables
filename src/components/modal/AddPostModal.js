@@ -24,10 +24,8 @@ class AddPostModal extends Component {
   }
 
   componentDidMount() {
-    let { categories, loadCategories } = this.props
-    if(!categories || categories.length === 0) {
-      loadCategories()
-    }
+    let { loadCategories } = this.props
+    loadCategories()
   }
 
   handleFormChange = (event) => {
@@ -57,7 +55,9 @@ class AddPostModal extends Component {
       if(!post.id) post.id = uuid.v1()
       if(!post.timestamp) post.timestamp = Date.now()
 
-      this.props.addPost(post).then(this.closeModal)
+      this.props.addPost(post)
+        .then(this.closeModal)
+        .then(() => window.location = `/post/${post.id}`)
     }
   }
 
@@ -129,6 +129,7 @@ const mapStateToProps = (state) => {
     categories: state.categories
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCategories: () => dispatch(fetchCategories()),

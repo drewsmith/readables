@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import CategoryDrawer from './CategoryDrawer'
 import Post from './Post'
+
 import { connect } from 'react-redux'
 
-import { fetchPosts, fetchPostsByCategory, sortPostsBy } from '../actions/posts'
+import { fetchPosts, fetchPostsByCategory, sortPostsBy, votePost, deletePost } from '../actions/posts'
 import { fetchCategories } from '../actions/categories'
 
-const ItemList = ({items, comments}) => (
+const ItemList = ({items, comments, onDeletePost}) => (
   <div>
     {items.length === 0
       ? <div className="no-data-found">No Posts Found</div>
@@ -15,6 +16,7 @@ const ItemList = ({items, comments}) => (
           key={post.id}
           post={post}
           comments={comments[post.id]}
+          onDeletePost={onDeletePost}
         />
       ))
     }
@@ -37,7 +39,7 @@ class PostList extends Component {
   handleSortChange = e => this.props.sortPosts(e.target.value)
 
   render() {
-    let { loadPostsByCategory, loadPosts, items, comments } = this.props
+    let { loadPostsByCategory, loadPosts, items, comments, onDeletePost } = this.props
     let { loading, category, sortMethod } = this.props.posts
     let { showCategories } = this.state
 
@@ -54,7 +56,7 @@ class PostList extends Component {
         </section>
         {loading
           ? <div className="loading">Loading</div>
-          : <ItemList items={items} comments={comments} /> }
+          : <ItemList items={items} comments={comments} onDeletePost={onDeletePost} /> }
 
         {showCategories && (
           <CategoryDrawer
@@ -80,7 +82,9 @@ const mapDispatchToProps = (dispatch) => {
     loadCategories: () => dispatch(fetchCategories()),
     loadPosts: () => dispatch(fetchPosts()),
     loadPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
-    sortPosts: (sortMethod) => dispatch(sortPostsBy(sortMethod))
+    sortPosts: (sortMethod) => dispatch(sortPostsBy(sortMethod)),
+    onVotePost: (postId, direction) => dispatch(votePost(postId, direction)),
+    onDeletePost: (postId) => dispatch(deletePost(postId))
   }
 }
 
