@@ -14,22 +14,13 @@ class CommentModal extends Component {
     comment: this.props.comment,
     error: false
   }
-
+/*
   componentWillReceiveProps(nextProps) {
     if(nextProps.comment && nextProps.comment !== this.state.comment) {
       this.setState({ comment: nextProps.comment })
     }
   }
-
-  componentWillMount() {
-    this.setState((state) => ({
-      comment: {
-        ...state.comment,
-        parentId: this.props.postId
-      }
-    }))
-  }
-
+*/
   handleFormChange = (event) => {
     let { name, value } = event.target
     this.setState((state) => ({
@@ -42,8 +33,15 @@ class CommentModal extends Component {
 
   valid = () => {
     let { comment } = this.state
-    return (comment.author && comment.author.trim().length > 0) && 
+    return (comment.author && comment.author.trim().length > 0) &&
       (comment.body && comment.body.trim().length > 0)
+  }
+
+  resetForm = () => {
+    this.setState({
+      comment: defaultComment,
+      error: false
+    })
   }
 
   onCommentSave = () => {
@@ -54,17 +52,16 @@ class CommentModal extends Component {
 
       if(!comment.id) comment.id = uuid.v1()
       if(!comment.timestamp) comment.timestamp = Date.now()
+      if(!comment.paretnId) comment.parentId = this.props.postId
 
       this.props.onSave(comment)
+      this.resetForm()
     }
   }
 
   closeModal = () => {
     let { onClose } = this.props
-    this.setState((state) => ({
-      comment: state.comment.id ? state.comment : defaultComment,
-      error: false
-    }))
+    this.resetForm()
     onClose()
   }
 
@@ -99,15 +96,13 @@ class CommentModal extends Component {
 }
 
 PropTypes.propTypes = {
-  onClose: PropTypes.func,
-  onSave: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
   comment: PropTypes.object
 }
 
 PropTypes.defaultProps = {
-  onClose: () => {},
-  onSave: () => {},
   comment: defaultComment
 }
 

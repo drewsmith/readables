@@ -38,7 +38,7 @@ class Post extends Component {
           onVote={votePost}
         />
         <div className="post-content">
-          <Link to={`/post/${post.id}`}>{post.title}</Link>
+          <Link to={`/${post.category}/${post.id}`}>{post.title}</Link>
           <p>{post.body}</p>
           <div className="details">
             By {post.author} on {toDateString(post.timestamp)}&nbsp;|&nbsp;
@@ -61,7 +61,7 @@ class Post extends Component {
 
 Post.propTypes = {
   post: PropTypes.object,
-  comments: PropTypes.object,
+  comments: PropTypes.array,
   votePost: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired
 }

@@ -26,6 +26,11 @@ const iconStyles = {
   }
 }
 
+const defaultComment = {
+  body: '',
+  author: ''
+}
+
 class CommentsHeader extends Component {
   state = {
     openNewCommentModal: false
@@ -51,6 +56,11 @@ class CommentsHeader extends Component {
           onClose={this.toggleModal}
           postId={postId}
           onSave={this.saveComment}
+          comment={Object.assign(
+            {},
+            defaultComment,
+            { parentId: postId }
+          )}
         />
       </div>
     )
@@ -132,7 +142,7 @@ PostView.propTypes = {
   loading: PropTypes.bool,
   post: PropTypes.object,
   comments: PropTypes.object,
-  onVotePost: PropTypes.func.isRequired
+  votePost: PropTypes.func.isRequired
 }
 
 export default connect(

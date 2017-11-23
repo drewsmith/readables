@@ -31,7 +31,7 @@ export const fetchPosts = () => {
         return data
       })
       .then(data => {
-        data.map(post => dispatch(fetchComments(post.id)))
+        data.forEach(post => dispatch(fetchComments(post.id)))
       })
   }
 }
@@ -80,7 +80,7 @@ export const fetchPostsByCategory = (category = '') => {
         return data
       })
       .then(data => {
-        data.map(post => dispatch(fetchComments(post.id)))
+        data.forEach(post => dispatch(fetchComments(post.id)))
       })
   }
 }
