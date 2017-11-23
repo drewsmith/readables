@@ -41,7 +41,7 @@ class PostList extends Component {
     this.getPosts()
   }
 
-  handleSortChange = e => this.props.sortPosts(e.target.value)
+  handleSortChange = e => this.props.sortPostsBy(e.target.value)
 
   render() {
     let { items, comments, deletePost, fetchPostsByCategory, fetchPosts } = this.props
