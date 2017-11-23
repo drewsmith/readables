@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 
 import CommentModal from './modal/CommentModal'
 
+import * as actions from '../actions/posts'
 import { connect } from 'react-redux'
-import { voteComment, addComment, deleteComment } from '../actions/posts'
+import { bindActionCreators } from 'redux'
 
 import { toDateString } from '../util'
 
@@ -16,12 +17,12 @@ class Comment extends Component {
 
   toggleModal = () => this.setState((state) => ({ openModal: !state.openModal }))
 
-  saveComment = (comment) => this.props.onAddComment(comment).then(this.toggleModal)
+  saveComment = (comment) => this.props.addComment(comment).then(this.toggleModal)
 
-  deleteComment = () => this.props.onDeleteComment(this.props.comment.id)
+  deleteComment = () => this.props.deleteComment(this.props.comment.id)
 
   render() {
-    let { comment, onVoteComment, postId } = this.props
+    let { comment, voteComment, postId } = this.props
     let { openModal } = this.state
 
     return (
@@ -29,7 +30,7 @@ class Comment extends Component {
         <Vote
           total={comment.voteScore}
           voteId={comment.id}
-          onVote={onVoteComment}
+          onVote={voteComment}
         />
 
         <div className="comment-content">
@@ -59,19 +60,13 @@ class Comment extends Component {
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
-  onAddComment: PropTypes.func.isRequired,
-  onVoteComment: PropTypes.func.isRequired,
-  onDeleteComment: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
+  voteComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onAddComment: (comment) => dispatch(addComment(comment)),
-  onVoteComment: (commentId, direction) => dispatch(voteComment(commentId, direction)),
-  onDeleteComment: (commentId) => dispatch(deleteComment(commentId))
-})
-
 export default connect(
   () => ({}),
-  mapDispatchToProps
+  (dispatch) => bindActionCreators(actions, dispatch)
 )(Comment)

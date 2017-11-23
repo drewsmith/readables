@@ -8,8 +8,9 @@ import CommentModal from './modal/CommentModal'
 
 import Add from 'material-ui-icons/Add'
 
+import * as actions from '../actions/posts'
 import { connect } from 'react-redux'
-import { fetchPost, addComment, votePost, deletePost } from '../actions/posts'
+import { bindActionCreators } from 'redux'
 
 import { sortByVoteScore } from '../util'
 
@@ -58,54 +59,50 @@ class CommentsHeader extends Component {
 
 CommentsHeader.propTypes = {
   totalComments: PropTypes.number,
-  postId: PropTypes.string.isRequired
+  postId: PropTypes.string.isRequired,
+  onAddComment: PropTypes.func.isRequired
 }
 
 CommentsHeader.defaultProps =  {
   totalComments: 0
 }
 
-class CommentList extends Component {
-  render() {
-    let { comments, postId, onAddComment } = this.props
+const CommentList = ({ comments, postId, onAddComment }) => (
+  <div>
+    <CommentsHeader
+      totalComments={comments.length}
+      postId={postId}
+      onAddComment={onAddComment}
+    />
 
-    return (
-      <div>
-        <CommentsHeader
-          totalComments={comments.length}
-          postId={postId}
-          onAddComment={onAddComment}
-        />
-
-        {comments.sort(sortByVoteScore).map(comment => (
-          <Comment
-            key={comment.id}
-            comment={comment}
-            postId={postId}
-          />
-        ))}
-      </div>
-    )
-  }
-}
+    {comments.sort(sortByVoteScore).map(comment => (
+      <Comment
+        key={comment.id}
+        comment={comment}
+        postId={postId}
+      />
+    ))}
+  </div>
+)
 
 CommentList.propTypes = {
   comments: PropTypes.array.isRequired,
-  onAddComment: PropTypes.func.isRequired
+  onAddComment: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired
 }
 
 class PostView extends Component {
   componentDidMount() {
     let { postId } = this.props.match.params
-    let { loadPost } = this.props
+    let { fetchPost } = this.props
 
     if(postId) {
-      loadPost(postId)
+      fetchPost(postId)
     }
   }
 
   render() {
-    let { loading, post, comments, onAddComment, onVotePost, onDeletePost } = this.props
+    let { loading, post, comments, addComment, votePost, deletePost } = this.props
     return (
       <div>
         {loading && <Loading />}
@@ -114,14 +111,14 @@ class PostView extends Component {
             <Post
               post={post}
               comments={comments[post.id]}
-              onVotePost={onVotePost}
-              onDeletePost={onDeletePost}
+              onVotePost={votePost}
+              onDeletePost={deletePost}
             />
             {comments[post.id] && (
               <CommentList
                 comments={comments[post.id]}
                 postId={post.id}
-                onAddComment={onAddComment}
+                onAddComment={addComment}
               />
             )}
           </div>
@@ -138,22 +135,11 @@ PostView.propTypes = {
   onVotePost: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return {
+export default connect(
+  (state) => ({
     loading: state.posts.loading,
     post: state.posts.post,
     comments: state.posts.comments
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  loadPost: (postId) => dispatch(fetchPost(postId)),
-  onAddComment: (comment) => dispatch(addComment(comment)),
-  onVotePost: (postId, direction) => dispatch(votePost(postId, direction)),
-  onDeletePost: (postId) => dispatch(deletePost(postId))
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  }),
+  (dispatch) => bindActionCreators(actions, dispatch)
 )(PostView)

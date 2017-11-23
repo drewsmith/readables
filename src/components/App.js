@@ -12,6 +12,9 @@ const App = () => (
     <div>
       <TopNav />
       <Route exact path="/" component={PostList} />
+      <Route exact path="/:category" render={({match}) => (
+        <PostList category={match.params.category} />
+      )} />
       <Route exact path="/post/:postId" component={PostView} />
     </div>
   </BrowserRouter>

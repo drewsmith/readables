@@ -1,48 +1,38 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Cancel from 'material-ui-icons/Cancel'
+
 import { connect } from 'react-redux'
+
 import '../css/CategoryDrawer.css'
 
-class CategoryDrawer extends Component {
+const cancelColor = '#9E9E9E'
 
-  handleAllClick = () => {
-    let { toggleDrawer, loadAllPosts } = this.props
-    loadAllPosts()
-    toggleDrawer()
-  }
+const CategoryDrawer = ({ categories, toggleDrawer }) => (
+  <div className="category-drawer">
+    <Cancel
+      className="close-icon"
+      onClick={toggleDrawer}
+      color={cancelColor}
+    />
+    <ul>
+      <li>Categories</li>
+      {categories.loading && (
+        <li>Loading...</li>
+      )}
+      <li onClick={() => window.location = '/'}>All</li>
+      {categories.items && categories.items.map(category => (
+        <li key={category.name} onClick={() => window.location = `/${category.name}`}>{category.name}</li>
+      ))}
+    </ul>
+  </div>
+)
 
-  handleCategoryClick(categoryName) {
-    let { toggleDrawer, loadPostsByCategory } = this.props
-    loadPostsByCategory(categoryName)
-    toggleDrawer()
-  }
-
-  render() {
-    let { categories, toggleDrawer } = this.props
-    return (
-      <div className="category-drawer">
-        <Cancel className="close-icon" onClick={toggleDrawer} color="#9E9E9E" />
-        <ul>
-          <li>Categories</li>
-          {categories.loading && (
-            <li>Loading...</li>
-          )}
-          <li onClick={this.handleAllClick}>All</li>
-          {categories.items && categories.items.map(category => (
-            <li key={category.name} onClick={() => this.handleCategoryClick(category.name)}>{category.name}</li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories
-  }
+CategoryDrawer.propTypes = {
+  categories: PropTypes.array.isRequired,
+  toggleDrawer: PropTypes.func.isRequired
 }
 
 export default connect(
-  mapStateToProps
+  (state) => ({categories: state.categories})
 )(CategoryDrawer)

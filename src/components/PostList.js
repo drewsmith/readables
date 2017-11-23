@@ -4,8 +4,9 @@ import Post from './Post'
 
 import { connect } from 'react-redux'
 
-import { fetchPosts, fetchPostsByCategory, sortPostsBy, votePost, deletePost } from '../actions/posts'
-import { fetchCategories } from '../actions/categories'
+import * as postActions from '../actions/posts'
+import * as categoryActions from '../actions/categories'
+import { bindActionCreators } from 'redux'
 
 const ItemList = ({items, comments, onDeletePost}) => (
   <div>
@@ -30,16 +31,20 @@ class PostList extends Component {
 
   toggleCategories = () => this.setState((state) => ({showCategories: !state.showCategories}))
 
+  getPosts = () => this.props.category
+    ? this.props.fetchPostsByCategory(this.props.category)
+    : this.props.fetchPosts()
+
   componentDidMount() {
-    let { loadCategories, loadPosts } = this.props
-    loadCategories()
-    loadPosts()
+    let { fetchCategories } = this.props
+    fetchCategories()
+    this.getPosts()
   }
 
   handleSortChange = e => this.props.sortPosts(e.target.value)
 
   render() {
-    let { loadPostsByCategory, loadPosts, items, comments, onDeletePost } = this.props
+    let { items, comments, deletePost, fetchPostsByCategory, fetchPosts } = this.props
     let { loading, category, sortMethod } = this.props.posts
     let { showCategories } = this.state
 
@@ -56,39 +61,35 @@ class PostList extends Component {
         </section>
         {loading
           ? <div className="loading">Loading</div>
-          : <ItemList items={items} comments={comments} onDeletePost={onDeletePost} /> }
+          : (
+            <ItemList
+              items={items}
+              comments={comments}
+              onDeletePost={deletePost}
+            />
+          )
+        }
 
         {showCategories && (
           <CategoryDrawer
             toggleDrawer={this.toggleCategories}
-            loadPostsByCategory={loadPostsByCategory}
-            loadAllPosts={loadPosts} />
+            loadPostsByCategory={fetchPostsByCategory}
+            loadAllPosts={fetchPosts}
+          />
         )}
       </main>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+export default connect(
+  (state) => ({
     items: state.posts.items,
     comments: state.posts.comments,
     posts: state.posts
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadCategories: () => dispatch(fetchCategories()),
-    loadPosts: () => dispatch(fetchPosts()),
-    loadPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
-    sortPosts: (sortMethod) => dispatch(sortPostsBy(sortMethod)),
-    onVotePost: (postId, direction) => dispatch(votePost(postId, direction)),
-    onDeletePost: (postId) => dispatch(deletePost(postId))
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  }),
+  (dispatch) => bindActionCreators(
+    Object.assign([], postActions, categoryActions),
+    dispatch
+  )
 )(PostList)

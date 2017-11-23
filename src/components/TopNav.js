@@ -18,7 +18,7 @@ class TopNav extends Component {
           <Library className="library-icon" color="#455A64" /> Readables
         </section>
         <ul>
-          <li><span onClick={() => window.location = '/'}>View Posts</span></li>
+          <li><span onClick={() => window.location = '/'}>View All Posts</span></li>
           <li><span onClick={this.toggleModal}>Add Post</span></li>
         </ul>
         <AddPostModal

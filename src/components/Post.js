@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import Vote from './Vote'
 import AddPostModal from './modal/AddPostModal'
 
+import * as actions from '../actions/posts'
+import { bindActionCreators } from 'redux'
+
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { votePost, deletePost, createPost } from '../actions/posts'
 import { toDateString } from '../util'
 
 import PropTypes from 'prop-types'
@@ -17,22 +19,23 @@ class Post extends Component {
     openModal: false
   }
 
-  toggleModal = () => this.setState((state) => ({openModal: !state.openModal}))
+  toggleModal = () => this.setState((state) => ({ openModal: !state.openModal }))
 
   handleDelete = () => {
-    this.props.onDeletePost(this.props.post.id)
+    let {  deletePost, post } = this.props
+    deletePost(post.id)
     window.location = '/'
   }
 
   render() {
-    let { post, comments, onVotePost } = this.props
+    let { post, comments, votePost } = this.props
     let { openModal } = this.state
     return (
       <section className="post-container" key={post.id}>
         <Vote
           total={post.voteScore}
           voteId={post.id}
-          onVote={onVotePost}
+          onVote={votePost}
         />
         <div className="post-content">
           <Link to={`/post/${post.id}`}>{post.title}</Link>
@@ -59,29 +62,15 @@ class Post extends Component {
 Post.propTypes = {
   post: PropTypes.object,
   comments: PropTypes.object,
-  onVotePost: PropTypes.func.isRequired,
-  onDeletePost: PropTypes.func.isRequired
+  votePost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired
 }
 
 Post.defaultProps = {
   comments: []
 }
 
-const mapStateToProps = (state) => {
-  return {
-    comments: state.posts.comments
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdatePost: (post) => dispatch(createPost(post)),
-    onVotePost: (postId, direction) => dispatch(votePost(postId, direction)),
-    onDeletePost: (postId) => dispatch(deletePost(postId))
-  }
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  () => ({}),
+  (dispatch) => bindActionCreators(actions, dispatch)
 )(Post)
