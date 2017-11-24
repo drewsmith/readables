@@ -3,19 +3,14 @@ import PropTypes from 'prop-types'
 
 import ModalContainer from './ModalContainer'
 
-import { fetchCategories } from '../../actions/categories'
-import { createPost } from '../../actions/posts'
+import * as postActions from '../../actions/posts'
+import * as categoryActions from '../../actions/categories'
+import { bindActionCreators } from 'redux'
+
 import { connect } from 'react-redux'
 
 import uuid from 'uuid'
 import '../../css/AddPost.css'
-
-const defaultPost = {
-  title: '',
-  author: '',
-  body: '',
-  category: ''
-}
 
 class AddPostModal extends Component {
   state = {
@@ -24,8 +19,7 @@ class AddPostModal extends Component {
   }
 
   componentDidMount() {
-    let { loadCategories } = this.props
-    loadCategories()
+    this.props.fetchCategories()
   }
 
   handleFormChange = (event) => {
@@ -55,20 +49,13 @@ class AddPostModal extends Component {
       if(!post.id) post.id = uuid.v1()
       if(!post.timestamp) post.timestamp = Date.now()
 
-      this.props.addPost(post)
+      this.props.createPost(post)
         .then(this.closeModal)
-        .then(() => window.location = `/post/${post.id}`)
+        .then(() => window.location = `/${post.category}/${post.id}`)
     }
   }
 
-  closeModal = () => {
-    let { onClose } = this.props
-    this.setState((state) => ({
-      post: state.post.id ? state.post : defaultPost,
-      error: false
-    }))
-    onClose()
-  }
+  closeModal = () => this.props.onClose()
 
   render() {
     let { isOpen, categories } = this.props
@@ -119,25 +106,10 @@ AddPostModal.propTypes = {
   onClose: PropTypes.func.isRequired
 }
 
-AddPostModal.defaultProps = {
-  post: defaultPost,
-  isOpen: false
-}
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadCategories: () => dispatch(fetchCategories()),
-    addPost: (post) => dispatch(createPost(post))
-  }
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state) => ({ categories: state.categories }),
+  (dispatch) => bindActionCreators(
+    {...postActions, ...categoryActions},
+    dispatch
+  )
 )(AddPostModal)

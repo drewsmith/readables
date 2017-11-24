@@ -4,42 +4,33 @@ import uuid from 'uuid'
 
 import ModalContainer from './ModalContainer'
 
-const defaultComment = {
-  body: '',
-  author: ''
-}
+const initialState = (comment) => ({
+  author: comment.author || '',
+  body: comment.body || '',
+  error: false
+})
 
 class CommentModal extends Component {
-  state = {
-    comment: this.props.comment,
-    error: false
-  }
-/*
+  state = initialState(this.props.comment)
+
   componentWillReceiveProps(nextProps) {
-    if(nextProps.comment && nextProps.comment !== this.state.comment) {
-      this.setState({ comment: nextProps.comment })
-    }
+    this.setState(initialState(nextProps.comment))
   }
-*/
+
   handleFormChange = (event) => {
     let { name, value } = event.target
-    this.setState((state) => ({
-      comment: {
-        ...state.comment,
-        [name]: value
-      }
-    }))
+    this.setState({ [name]: value })
   }
 
   valid = () => {
-    let { comment } = this.state
-    return (comment.author && comment.author.trim().length > 0) &&
-      (comment.body && comment.body.trim().length > 0)
+    let { author, body } = this.state
+    return (author && author.trim().length > 0) &&
+      (body && body.trim().length > 0)
   }
 
   resetForm = () => {
     this.setState({
-      comment: defaultComment,
+      comment: {},
       error: false
     })
   }
@@ -48,27 +39,27 @@ class CommentModal extends Component {
     if(!this.valid()) {
       this.setState({error: true})
     } else {
-      let { comment } = this.state
-
-      if(!comment.id) comment.id = uuid.v1()
-      if(!comment.timestamp) comment.timestamp = Date.now()
-      if(!comment.paretnId) comment.parentId = this.props.postId
-
-      this.props.onSave(comment)
-      this.resetForm()
+      let { author, body } = this.state
+      let { comment, postId } = this.props
+      this.props.onSave({
+        id: comment.id || uuid.v1(),
+        timestamp: comment.timestamp || Date.now(),
+        parentId: comment.parentId || postId,
+        author: author,
+        body: body
+      })
     }
   }
 
   closeModal = () => {
-    let { onClose } = this.props
-    this.resetForm()
-    onClose()
+    //this.resetForm()
+    this.props.onClose()
   }
 
   render() {
-    let { isOpen } = this.props
-    let { comment, error } = this.state
-
+    let { isOpen, comment } = this.props
+    let { error, author, body } = this.state
+    console.log(comment)
     return (
       <ModalContainer
         title={`${comment.id ? 'Update' : 'Add'} Comment`}
@@ -83,11 +74,11 @@ class CommentModal extends Component {
           )}
           <div className="field">
             <label>Name</label>
-            <input type="text" name="author" onChange={this.handleFormChange} value={comment.author} />
+            <input type="text" name="author" onChange={this.handleFormChange} value={author} />
           </div>
           <div className="field">
             <label>Comment</label>
-            <textarea name="body" onChange={this.handleFormChange} value={comment.body} />
+            <textarea name="body" onChange={this.handleFormChange} value={body} />
           </div>
         </div>
       </ModalContainer>
@@ -95,15 +86,11 @@ class CommentModal extends Component {
   }
 }
 
-PropTypes.propTypes = {
+CommentModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
-  comment: PropTypes.object
-}
-
-PropTypes.defaultProps = {
-  comment: defaultComment
+  comment: PropTypes.object.isRequired
 }
 
 export default CommentModal

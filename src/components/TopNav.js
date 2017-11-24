@@ -5,6 +5,13 @@ import { Link } from 'react-router-dom'
 import AddPostModal from './modal/AddPostModal'
 import Library from 'material-ui-icons/LocalLibrary'
 
+const defaultPost = {
+  title: '',
+  author: '',
+  body: '',
+  category: ''
+}
+
 class TopNav extends Component {
   state = {
     openModal: false
@@ -26,6 +33,7 @@ class TopNav extends Component {
         <AddPostModal
           isOpen={openModal}
           onClose={this.toggleModal}
+          post={defaultPost}
         />
       </header>
     )
