@@ -89,7 +89,7 @@ export default connect(
     posts: state.posts
   }),
   (dispatch) => bindActionCreators(
-    Object.assign([], postActions, categoryActions),
+    {...postActions, ...categoryActions},
     dispatch
   )
 )(PostList)

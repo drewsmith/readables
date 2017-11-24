@@ -12,62 +12,73 @@ import { connect } from 'react-redux'
 import uuid from 'uuid'
 import '../../css/AddPost.css'
 
+const initialState = {
+  title: '',
+  author: '',
+  body: '',
+  category: '',
+  error: false
+}
+
 class AddPostModal extends Component {
-  state = {
-    post: this.props.post,
-    errors: false
+  state = initialState
+
+  static propTypes = {
+    post: PropTypes.object.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired
   }
 
   componentDidMount() {
     this.props.fetchCategories()
   }
 
-  handleFormChange = (event) => {
-    let { name, value } = event.target
-    this.setState((state) => ({
-      post: {
-        ...state.post,
-        [name]: value
-      }
-    }))
+  componentWillReceiveProps(nextProps) {
+    this.setState(initialState)
   }
 
+  handleFormChange = event => this.setState({[event.target.name]: event.target.value})
+
   valid = () => {
-    let { post } = this.state
-    return (post.title && post.title.trim().length > 0) &&
-      (post.author && post.author.trim().length > 0) &&
-      (post.body && post.body.trim().length > 0) &&
-      (post.category && post.category.trim().length > 0)
+    let { title, author, body, category } = this.state
+    return (title && title.trim().length > 0) &&
+      (author && author.trim().length > 0) &&
+      (body && body.trim().length > 0) &&
+      (category && category.trim().length > 0)
   }
 
   onPostSave = () => {
     if(!this.valid()) {
       this.setState({ error: true })
     } else {
-      let { post } = this.state
+      let { title, author, body, category } = this.state
+      let { createPost, onClose } = this.props
 
-      if(!post.id) post.id = uuid.v1()
-      if(!post.timestamp) post.timestamp = Date.now()
-
-      this.props.createPost(post)
-        .then(this.closeModal)
-        .then(() => window.location = `/${post.category}/${post.id}`)
+      let id = uuid.v1()
+      createPost({
+        title: title,
+        author: author,
+        body: body,
+        category: category,
+        id: id,
+        timestamp: Date.now()
+      })
+      .then(onClose)
+      .then(() => window.location = `/${category}/${id}`)
     }
   }
 
-  closeModal = () => this.props.onClose()
-
   render() {
-    let { isOpen, categories } = this.props
-    let { post, error } = this.state
+    let { isOpen, categories, onClose } = this.props
+    let { title, author, body, category, error } = this.state
 
     return (
       <ModalContainer
-        title={`${post.id ? 'Update' : 'Add'} Post`}
-        saveText={`${post.id ? 'Update' : 'Save'} Post`}
+        title="Add Post"
+        saveText="Save Post"
         isOpen={isOpen}
         onSave={this.onPostSave}
-        onClose={this.closeModal}
+        onClose={onClose}
       >
         <div className="add-post">
           {error && (
@@ -75,19 +86,19 @@ class AddPostModal extends Component {
           )}
           <div className="field">
             <label>Title</label>
-            <input type="text" name="title" onChange={this.handleFormChange} value={post.title} />
+            <input type="text" name="title" onChange={this.handleFormChange} value={title} />
           </div>
           <div className="field">
             <label>Author</label>
-            <input type="text" name="author" onChange={this.handleFormChange} value={post.author} />
+            <input type="text" name="author" onChange={this.handleFormChange} value={author} />
           </div>
           <div className="field">
             <label>Text</label>
-            <textarea name="body" onChange={this.handleFormChange} value={post.body} />
+            <textarea name="body" onChange={this.handleFormChange} value={body} />
           </div>
           <div className="field">
             <label>Category</label>
-            <select name="category" onChange={this.handleFormChange} value={post.category}>
+            <select name="category" onChange={this.handleFormChange} value={category}>
               <option>Select a category</option>
             {categories.items && categories.items.map(cat => (
               <option key={cat.name} value={cat.name}>{cat.name}</option>
@@ -100,14 +111,10 @@ class AddPostModal extends Component {
   }
 }
 
-AddPostModal.propTypes = {
-  post: PropTypes.object.isRequired,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func.isRequired
-}
-
 export default connect(
-  (state) => ({ categories: state.categories }),
+  (state) => ({
+    categories: state.categories
+  }),
   (dispatch) => bindActionCreators(
     {...postActions, ...categoryActions},
     dispatch

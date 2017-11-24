@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Vote from './Vote'
 import PropTypes from 'prop-types'
 
-import CommentModal from './modal/CommentModal'
+import UpdateCommentModal from './modal/UpdateCommentModal'
 
 import * as actions from '../actions/posts'
 import { connect } from 'react-redux'
@@ -17,12 +17,10 @@ class Comment extends Component {
 
   toggleModal = () => this.setState((state) => ({ openModal: !state.openModal }))
 
-  saveComment = (comment) => this.props.addComment(comment).then(this.toggleModal)
-
   deleteComment = () => this.props.deleteComment(this.props.comment.id)
 
   render() {
-    let { comment, voteComment, postId } = this.props
+    let { comment, voteComment } = this.props
     let { openModal } = this.state
 
     return (
@@ -45,12 +43,10 @@ class Comment extends Component {
           </div>
         </div>
 
-        <CommentModal
+        <UpdateCommentModal
           key={comment.id}
           isOpen={openModal}
           onClose={this.toggleModal}
-          postId={postId}
-          onSave={this.saveComment}
           comment={comment}
         />
       </div>

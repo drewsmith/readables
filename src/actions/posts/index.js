@@ -70,6 +70,22 @@ export const createPost = (post) => {
   }
 }
 
+export const editPost = (title, body, postId) => {
+  return dispatch => {
+    return axios({
+        headers,
+        method: 'PUT',
+        url: `${serverUrl}/posts/${postId}`,
+        data: {
+          title: title,
+          body: body
+        }
+      })
+      .then(response => response.data)
+      .then(data => dispatch(receivePost(data)))
+  }
+}
+
 export const fetchPostsByCategory = (category = '') => {
   return dispatch => {
     dispatch(requestPosts())
@@ -154,6 +170,22 @@ export const deleteComment = (commentId) => {
       })
       .then(response => response.data)
       .then(data => dispatch(fetchComments(data.parentId)))
+  }
+}
+
+export const editComment = (commentId, commentBody) => {
+  return dispatch => {
+    return axios({
+        headers,
+        method: 'PUT',
+        url: `${serverUrl}/comments/${commentId}`,
+        data: {
+          timestamp: Date.now(),
+          body: commentBody
+        }
+      })
+      .then(response => response.data)
+      .then(data => dispatch(updateComment(data)))
   }
 }
 

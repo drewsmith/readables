@@ -2,25 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import uuid from 'uuid'
 
+import * as actions from '../../actions/posts'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import ModalContainer from './ModalContainer'
 
-const initialState = (comment) => ({
-  author: comment.author || '',
-  body: comment.body || '',
+const initialState = {
+  author: '',
+  body: '',
   error: false
-})
+}
 
 class CommentModal extends Component {
-  state = initialState(this.props.comment)
+  state = initialState
 
   componentWillReceiveProps(nextProps) {
-    this.setState(initialState(nextProps.comment))
+    this.setState(initialState)
   }
 
-  handleFormChange = (event) => {
-    let { name, value } = event.target
-    this.setState({ [name]: value })
-  }
+  handleFormChange = event => this.setState({ [event.target.name]: event.target.value })
 
   valid = () => {
     let { author, body } = this.state
@@ -28,44 +29,35 @@ class CommentModal extends Component {
       (body && body.trim().length > 0)
   }
 
-  resetForm = () => {
-    this.setState({
-      comment: {},
-      error: false
-    })
-  }
-
   onCommentSave = () => {
     if(!this.valid()) {
-      this.setState({error: true})
-    } else {
-      let { author, body } = this.state
-      let { comment, postId } = this.props
-      this.props.onSave({
-        id: comment.id || uuid.v1(),
-        timestamp: comment.timestamp || Date.now(),
-        parentId: comment.parentId || postId,
-        author: author,
-        body: body
-      })
+      this.setState({ error: true })
+      return
     }
-  }
 
-  closeModal = () => {
-    //this.resetForm()
-    this.props.onClose()
+    let { author, body } = this.state
+    let { postId, addComment, onClose } = this.props
+
+    addComment({
+      id: uuid.v1(),
+      timestamp: Date.now(),
+      parentId: postId,
+      author: author,
+      body: body
+    })
+    .then(onClose)
   }
 
   render() {
-    let { isOpen, comment } = this.props
+    let { isOpen, onClose } = this.props
     let { error, author, body } = this.state
-    
+
     return (
       <ModalContainer
-        title={`${comment.id ? 'Update' : 'Add'} Comment`}
-        saveText={`${comment.id ? 'Update' : 'Save'} Comment`}
+        title="Add Comment"
+        saveText="Save Comment"
         isOpen={isOpen}
-        onClose={this.closeModal}
+        onClose={onClose}
         onSave={this.onCommentSave}
       >
         <div className="add-post">
@@ -88,9 +80,11 @@ class CommentModal extends Component {
 
 CommentModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
   postId: PropTypes.string.isRequired,
   comment: PropTypes.object.isRequired
 }
 
-export default CommentModal
+export default connect(
+  () => ({}),
+  (dispatch) => bindActionCreators(actions, dispatch)
+)(CommentModal)

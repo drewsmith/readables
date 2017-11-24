@@ -31,6 +31,13 @@ const sortBy = (sortMethod = VOTE_SCORE) => {
   }
 }
 
+const replacePost = (posts, newPost, sortMethod) => (
+  Object.assign(
+    [],
+    posts.filter(post => post.id !== newPost.id).concat(newPost)
+  ).sort(sortBy(sortMethod))
+)
+
 const posts = (state = {
   loading: false,
   items: [],
@@ -72,6 +79,7 @@ const posts = (state = {
         ...state,
         loading: false,
         post: action.post,
+        items: replacePost(state.items, action.post, state.sortMethod),
         fetchFailed: false
       }
     case RECIEVE_COMMENTS:
@@ -115,9 +123,7 @@ const posts = (state = {
       return {
         ...state,
         post: action.post,
-        items: Object.assign([],
-          state.items.filter(item => item.id !== action.post.id).concat(action.post)
-        ).sort(sortBy(state.sortMethod))
+        items: replacePost(state.items, action.post, state.sortMethod)
       }
     default:
       return state

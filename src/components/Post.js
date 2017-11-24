@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Vote from './Vote'
-import AddPostModal from './modal/AddPostModal'
+import EditPostModal from './modal/EditPostModal'
 
 import * as actions from '../actions/posts'
 import { bindActionCreators } from 'redux'
@@ -48,7 +48,7 @@ class Post extends Component {
             <button className="footer-button" onClick={this.handleDelete}>Delete</button>
           </div>
         </div>
-        <AddPostModal
+        <EditPostModal
           key={post.id}
           isOpen={openModal}
           post={post}

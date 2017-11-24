@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Post from './Post'
 import Comment from './Comment'
 import Loading from './Loading'
-import CommentModal from './modal/CommentModal'
+import AddCommentModal from './modal/AddCommentModal'
 
 import Add from 'material-ui-icons/Add'
 
@@ -26,19 +26,12 @@ const iconStyles = {
   }
 }
 
-const defaultComment = {
-  body: '',
-  author: ''
-}
-
 class CommentsHeader extends Component {
   state = {
     openNewCommentModal: false
   }
 
   toggleModal = () => this.setState((state) => ({ openNewCommentModal: !state.openNewCommentModal }))
-
-  saveComment = (comment) => this.props.onAddComment(comment).then(this.toggleModal)
 
   render() {
     let { totalComments, postId } = this.props
@@ -51,16 +44,10 @@ class CommentsHeader extends Component {
           <Add color="#455A64" style={iconStyles.plus} />
           <span style={iconStyles.text}>Add Comment</span>
         </button>
-        <CommentModal
+        <AddCommentModal
           isOpen={openNewCommentModal}
           onClose={this.toggleModal}
           postId={postId}
-          onSave={this.saveComment}
-          comment={Object.assign(
-            {},
-            defaultComment,
-            { parentId: postId }
-          )}
         />
       </div>
     )
@@ -69,8 +56,7 @@ class CommentsHeader extends Component {
 
 CommentsHeader.propTypes = {
   totalComments: PropTypes.number,
-  postId: PropTypes.string.isRequired,
-  onAddComment: PropTypes.func.isRequired
+  postId: PropTypes.string.isRequired
 }
 
 CommentsHeader.defaultProps =  {
@@ -82,9 +68,7 @@ const CommentList = ({ comments, postId, onAddComment }) => (
     <CommentsHeader
       totalComments={comments.length}
       postId={postId}
-      onAddComment={onAddComment}
     />
-
     {comments.sort(sortByVoteScore).map(comment => (
       <Comment
         key={comment.id}
