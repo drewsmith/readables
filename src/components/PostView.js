@@ -101,38 +101,46 @@ CommentList.propTypes = {
   postId: PropTypes.string.isRequired
 }
 
+const PostDisplay = ({post, comments, votePost, deletePost, addComment}) => (
+  !post
+    ? <div className="no-data-found">The post could not be found.</div>
+    : (
+      <div>
+        <Post
+          post={post}
+          comments={comments[post.id]}
+          onVotePost={votePost}
+          onDeletePost={deletePost}
+        />
+        {comments[post.id] && (
+          <CommentList
+            comments={comments[post.id]}
+            postId={post.id}
+            onAddComment={addComment}
+          />
+        )}
+      </div>
+    )
+)
+
 class PostView extends Component {
   componentDidMount() {
     let { postId } = this.props.match.params
     let { fetchPost } = this.props
-
     if(postId) {
-      fetchPost(postId)
+      let fetchFailed = false
+      fetchPost(postId).catch(() => fetchFailed = true)
+      this.setState({ fetchFailed: fetchFailed })
     }
   }
-
   render() {
-    let { loading, post, comments, addComment, votePost, deletePost } = this.props
+    let { loading } = this.props
     return (
       <div>
-        {loading && <Loading />}
-        {post && !loading && (
-          <div>
-            <Post
-              post={post}
-              comments={comments[post.id]}
-              onVotePost={votePost}
-              onDeletePost={deletePost}
-            />
-            {comments[post.id] && (
-              <CommentList
-                comments={comments[post.id]}
-                postId={post.id}
-                onAddComment={addComment}
-              />
-            )}
-          </div>
-        )}
+        {loading
+          ? <Loading />
+          : <PostDisplay {...this.props} />
+        }
       </div>
     )
   }

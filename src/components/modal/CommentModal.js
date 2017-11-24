@@ -59,7 +59,7 @@ class CommentModal extends Component {
   render() {
     let { isOpen, comment } = this.props
     let { error, author, body } = this.state
-    console.log(comment)
+    
     return (
       <ModalContainer
         title={`${comment.id ? 'Update' : 'Add'} Comment`}

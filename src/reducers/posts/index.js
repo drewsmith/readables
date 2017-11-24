@@ -8,7 +8,8 @@ import {
   SORT_BY,
   UPDATE_COMMENT,
   REMOVE_COMMENT,
-  RECEIVE_VOTE
+  RECEIVE_VOTE,
+  FETCH_FAILED
 } from '../../actions/posts'
 
 import { sortByVoteScore, sortByTimestamp } from '../../util'
@@ -36,9 +37,18 @@ const posts = (state = {
   comments: {},
   post: null,
   category: ALL_CATEGORY,
-  sortMethod: VOTE_SCORE
+  sortMethod: VOTE_SCORE,
+  fetchFailed: false
 }, action) => {
   switch(action.type) {
+    case FETCH_FAILED:
+      return {
+        ...state,
+        post: null,
+        items: [],
+        fetchFailed: true,
+        loading: false
+      }
     case REQUEST_POSTS:
       return {
         ...state,
@@ -49,7 +59,8 @@ const posts = (state = {
         ...state,
         loading: false,
         items: action.posts.sort(sortBy(state.sortMethod)),
-        category: fixCase(action.category ? action.category : ALL_CATEGORY)
+        category: fixCase(action.category ? action.category : ALL_CATEGORY),
+        fetchFailed: false
       }
     case REQUEST_POST:
       return {
@@ -60,7 +71,8 @@ const posts = (state = {
       return {
         ...state,
         loading: false,
-        post: action.post
+        post: action.post,
+        fetchFailed: false
       }
     case RECIEVE_COMMENTS:
       let { comments = [], postId } = action

@@ -29,7 +29,7 @@ const CategoryDrawer = ({ categories, toggleDrawer }) => (
 )
 
 CategoryDrawer.propTypes = {
-  categories: PropTypes.array.isRequired,
+  categories: PropTypes.object.isRequired,
   toggleDrawer: PropTypes.func.isRequired
 }
 

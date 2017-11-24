@@ -13,6 +13,7 @@ export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const SORT_BY = 'SORT'
+export const FETCH_FAILED = 'FETCH_FAILED'
 
 export const requestPosts = () => ({
   type: REQUEST_POSTS
@@ -33,6 +34,7 @@ export const fetchPosts = () => {
       .then(data => {
         data.forEach(post => dispatch(fetchComments(post.id)))
       })
+      .catch(() => dispatch(fetchFailed()))
   }
 }
 
@@ -53,6 +55,7 @@ export const fetchPost = (postId) => {
         return data
       })
       .then(data => dispatch(fetchComments(data.id)))
+      .catch(() => dispatch(fetchFailed()))
   }
 }
 
@@ -82,6 +85,7 @@ export const fetchPostsByCategory = (category = '') => {
       .then(data => {
         data.forEach(post => dispatch(fetchComments(post.id)))
       })
+      .catch(() => dispatch(fetchFailed()))
   }
 }
 
@@ -199,4 +203,8 @@ export const updateComment = (comment) => ({
 export const removeComment = (commentId) => ({
   type: REMOVE_COMMENT,
   commentId: commentId
+})
+
+export const fetchFailed = () => ({
+  type: FETCH_FAILED
 })
