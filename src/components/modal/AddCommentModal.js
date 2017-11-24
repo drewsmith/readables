@@ -14,8 +14,14 @@ const initialState = {
   error: false
 }
 
-class CommentModal extends Component {
+class AddCommentModal extends Component {
   state = initialState
+
+  static propTypes = {
+    onClose: PropTypes.func.isRequired,
+    addComment: PropTypes.func.isRequired,
+    postId: PropTypes.string.isRequired
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState(initialState)
@@ -78,13 +84,7 @@ class CommentModal extends Component {
   }
 }
 
-CommentModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  postId: PropTypes.string.isRequired,
-  comment: PropTypes.object.isRequired
-}
-
 export default connect(
   () => ({}),
   (dispatch) => bindActionCreators(actions, dispatch)
-)(CommentModal)
+)(AddCommentModal)
