@@ -51,10 +51,13 @@ export const fetchPost = (postId) => {
       })
       .then(response => response.data)
       .then(data => {
-        dispatch(receivePost(data))
-        return data
+        if(data && data.id) {
+          dispatch(receivePost(data))
+          dispatch(fetchComments(data.id))
+        } else {
+          dispatch(fetchFailed())
+        }
       })
-      .then(data => dispatch(fetchComments(data.id)))
       .catch(() => dispatch(fetchFailed()))
   }
 }

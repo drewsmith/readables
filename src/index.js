@@ -14,7 +14,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducers, composeEnhancers(), applyMiddleware(thunkMiddleware))
+const store = createStore(
+  reducers,
+  composeEnhancers(),
+  applyMiddleware(thunkMiddleware)
+)
 
 ReactDOM.render(
   <Provider store={store}>
