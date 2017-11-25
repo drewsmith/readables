@@ -7,6 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux'
 import { createStore, compose, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
+import logger from 'redux-logger'
 import reducers from './reducers'
 
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
@@ -17,7 +18,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   reducers,
   composeEnhancers(),
-  applyMiddleware(thunkMiddleware)
+  applyMiddleware(thunkMiddleware, logger)
 )
 
 ReactDOM.render(

@@ -199,7 +199,7 @@ export const deletePost = (postId) => {
         method: 'DELETE',
         url: `${serverUrl}/posts/${postId}`
       })
-      .then(() => dispatch(fetchPosts(postId)))
+      .then(() => dispatch(fetchPosts()))
   }
 }
 
